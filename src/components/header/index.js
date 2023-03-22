@@ -6,10 +6,8 @@ import { Select } from 'antd';
 
 const SearchBox = () => {
     const [type, setType] = useState("all");
-    const [error, setError] = useState(null);
     const [selectedAnimal, setSelectedAnimal] = useState(null);
     const [options,setOptions] = useState([]);
-    const [result,setResult] = useState(null)
 
     const onChange = (value) => {
         console.log(`selected ${value}`);
@@ -30,7 +28,7 @@ const SearchBox = () => {
                 });
             console.log('options:',options)
             console.log('search:', value);
-        };
+        }
     };
 
     const handleChange = (value) => {
