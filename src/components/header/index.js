@@ -2,7 +2,8 @@ import React, {useState, useEffect} from 'react';
 import './header.css';
 import LOGO from './logo.png';
 import axios from 'axios';
-import {DropdownButton, Dropdown, OverlayTrigger, Popover} from "react-bootstrap";
+import { DropdownButton, Dropdown, OverlayTrigger, Popover } from "react-bootstrap";
+import { Select } from 'antd';
 
 const SearchBox = () => {
     const [type, setType] = useState("");
@@ -10,81 +11,137 @@ const SearchBox = () => {
     const [results, setResults] = useState([]);
     const [error, setError] = useState(null);
     const [selectedAnimal, setSelectedAnimal] = useState(null);
+    const [options,setOptions] = useState([]);
+    //     [
+    //     {
+    //         value: 'jack',
+    //         label: 'Jack',
+    //     },
+    //     {
+    //         value: 'lucy',
+    //         label: 'Lucy',
+    //     },
+    //     {
+    //         value: 'tom',
+    //         label: 'Tom',
+    //     },
+    // ];
 
-    useEffect(() => {
-        if (name) {
+    // const popover = (
+    //     <Popover>
+    //         <Popover.Body>
+    //             {results.length > 0 && (
+    //                 <table>
+    //                     <thead>
+    //                     <tr>
+    //                         <th>Class</th>
+    //                         <th>Order</th>
+    //                         <th>Animal</th>
+    //                         <th>SN</th>
+    //                         <th>Action</th>
+    //                     </tr>
+    //                     </thead>
+    //                     <tbody>
+    //                     {results.map((result) => (
+    //                         <tr key={result.id}>
+    //                             <td>{result.Class}</td>
+    //                             <td>{result.Order}</td>
+    //                             <td>{result.Animal}</td>
+    //                             <td>{result.SN}</td>
+    //                             <td>
+    //                                 <button onClick={() => setSelectedAnimal(result.profile)}>查看详情</button>
+    //                             </td>
+    //                         </tr>
+    //                     ))}
+    //                     </tbody>
+    //                 </table>
+    //             )}
+    //         </Popover.Body>
+    //     </Popover>
+    // );
+
+    const onChange = (value) => {
+        console.log(`selected ${value}`);
+    };
+    const onSearch = (value) => {
+        if (value) {
             axios
-                .get(`http://localhost:5000/search?name=${name}&type=${type}`)
+                .get(`http://localhost:5000/search?name=${value}&type=${type}`)
                 .then((res) => {
                     setResults(res.data);
                     setError(null);
+                })
+                //将json导入options
+                .then((res) => {
+                    const options = [];
+                    for (let i = 0; i < res.data.length; i++) {
+                        options.push({
+                            value: res.data[i].id,
+                            label: res.data[i].title,
+                        });
+                    }
+                    setOptions(options);
                 })
                 .catch((err) => {
                     console.error(err);
                     setError("出现错误");
                 });
-        } else {
-            setResults([]);
-            setError(null);
-        }
-    }, [name]);
+            console.log('search:', value);
+        };
+    };
 
-    const popover = (
-        <Popover>
-            <Popover.Body>
-                {results.length > 0 && (
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Class</th>
-                            <th>Order</th>
-                            <th>Animal</th>
-                            <th>SN</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {results.map((result) => (
-                            <tr key={result.id}>
-                                <td>{result.Class}</td>
-                                <td>{result.Order}</td>
-                                <td>{result.Animal}</td>
-                                <td>{result.SN}</td>
-                                <td>
-                                    <button onClick={() => setSelectedAnimal(result.profile)}>查看详情</button>
-                                </td>
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
-                )}
-            </Popover.Body>
-        </Popover>
-    );
+    const handleChange = (value) => {
+        setType(value.key)
+        console.log(value); // { value: "lucy", key: "lucy", label: "Lucy (101)" }
+    };
 
     return (
         <div className="header_right_search">
             <div className="input">
         <span>
-          <DropdownButton
-              id="dropdown-basic-button"
-              title={type || "all"}
-              onSelect={(e) => setType(e)}
-          >
-            <Dropdown.Item eventKey="all">全部搜索</Dropdown.Item>
-            <Dropdown.Item eventKey="Class">按类搜索</Dropdown.Item>
-            <Dropdown.Item eventKey="Order">按目搜索</Dropdown.Item>
-            <Dropdown.Item eventKey="Level">濒危等级搜索</Dropdown.Item>
-          </DropdownButton>
+          {/*<DropdownButton*/}
+          {/*    id="dropdown-basic-button"*/}
+          {/*    title={type || "all"}*/}
+          {/*    onSelect={(e) => setType(e)}*/}
+          {/*>*/}
+          {/*  <Dropdown.Item eventKey="all">全部搜索</Dropdown.Item>*/}
+          {/*  <Dropdown.Item eventKey="Class">按类搜索</Dropdown.Item>*/}
+          {/*  <Dropdown.Item eventKey="Order">按目搜索</Dropdown.Item>*/}
+          {/*  <Dropdown.Item eventKey="Level">濒危等级搜索</Dropdown.Item>*/}
+          {/*</DropdownButton>*/}
+            <Select
+                labelInValue
+                defaultValue={{
+                    value: 'all',
+                    label: '全部搜索',
+                }}
+                style={{
+                    width: 80,background:"transparent",border:"none"
+                }}
+                onChange={handleChange}
+                options={[
+                    {
+                        value: 'all',
+                        label: '全部搜索'
+                    },
+                    {
+                        value: 'class',
+                        label: '按类搜索',
+                    },
+                    {
+                        value: 'order',
+                        label: '按目搜索',
+                    },
+                    {
+                        value: 'level',
+                        label: '濒危等级搜索',
+                    },
+                ]}
+            />
         </span>
 
-                <OverlayTrigger trigger="click" placement="bottom" overlay={popover}>
-                    <input
-                        type="text"
-                        placeholder="Search"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                    />
+                <OverlayTrigger trigger="click" placement="bottom" >
+                    <Select className='select' showSearch options={options} onChange={onChange} onSearch={onSearch}></Select>
                 </OverlayTrigger>
             </div>
             {error ? (
