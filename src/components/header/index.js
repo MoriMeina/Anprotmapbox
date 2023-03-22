@@ -5,59 +5,11 @@ import axios from 'axios';
 import { Select } from 'antd';
 
 const SearchBox = () => {
-    const [type, setType] = useState("");
-    const [name, setName] = useState("");
-    const [results, setResults] = useState([]);
+    const [type, setType] = useState("all");
     const [error, setError] = useState(null);
     const [selectedAnimal, setSelectedAnimal] = useState(null);
     const [options,setOptions] = useState([]);
-    //     [
-    //     {
-    //         value: 'jack',
-    //         label: 'Jack',
-    //     },
-    //     {
-    //         value: 'lucy',
-    //         label: 'Lucy',
-    //     },
-    //     {
-    //         value: 'tom',
-    //         label: 'Tom',
-    //     },
-    // ];
-
-    // const popover = (
-    //     <Popover>
-    //         <Popover.Body>
-    //             {results.length > 0 && (
-    //                 <table>
-    //                     <thead>
-    //                     <tr>
-    //                         <th>Class</th>
-    //                         <th>Order</th>
-    //                         <th>Animal</th>
-    //                         <th>SN</th>
-    //                         <th>Action</th>
-    //                     </tr>
-    //                     </thead>
-    //                     <tbody>
-    //                     {results.map((result) => (
-    //                         <tr key={result.id}>
-    //                             <td>{result.Class}</td>
-    //                             <td>{result.Order}</td>
-    //                             <td>{result.Animal}</td>
-    //                             <td>{result.SN}</td>
-    //                             <td>
-    //                                 <button onClick={() => setSelectedAnimal(result.profile)}>查看详情</button>
-    //                             </td>
-    //                         </tr>
-    //                     ))}
-    //                     </tbody>
-    //                 </table>
-    //             )}
-    //         </Popover.Body>
-    //     </Popover>
-    // );
+    const [result,setResult] = useState(null)
 
     const onChange = (value) => {
         console.log(`selected ${value}`);
@@ -67,20 +19,23 @@ const SearchBox = () => {
             axios
                 .get(`http://localhost:5000/search?name=${value}&type=${type}`)
                 .then((res) => {
-                    setOptions(res.data);
-                    setError(null);
+                    if (res.data.length > 0) {
+                        setOptions(res.data);
+                    } else {
+                        setOptions(null);
+                    }
                 })
                 .catch((err) => {
                     console.error(err);
-                    setError("出现错误");
                 });
+            console.log('options:',options)
             console.log('search:', value);
         };
     };
 
     const handleChange = (value) => {
         setType(value.key)
-        console.log(value); // { value: "lucy", key: "lucy", label: "Lucy (101)" }
+        console.log(value);
     };
 
     return (
@@ -113,15 +68,15 @@ const SearchBox = () => {
                         label: '全部搜索'
                     },
                     {
-                        value: 'class',
+                        value: 'Class',
                         label: '按类搜索',
                     },
                     {
-                        value: 'order',
+                        value: 'Order',
                         label: '按目搜索',
                     },
                     {
-                        value: 'level',
+                        value: 'Level',
                         label: '濒危等级搜索',
                     },
                 ]}
@@ -129,17 +84,6 @@ const SearchBox = () => {
         </span>
                     <Select className='select' showSearch options={options} onChange={onChange} onSearch={onSearch}></Select>
             </div>
-            {error ? (
-                <p>{error}</p>
-            ) : (
-                results.length > 0 && (
-                    <ul>
-                        {results.map((result) => (
-                            <li key={result.id}>{result.title}</li>
-                        ))}
-                    </ul>
-                )
-            )}
 
             {selectedAnimal && (
                 <div className="profile-overlay">
