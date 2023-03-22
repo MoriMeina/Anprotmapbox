@@ -68,19 +68,8 @@ const SearchBox = () => {
             axios
                 .get(`http://localhost:5000/search?name=${value}&type=${type}`)
                 .then((res) => {
-                    setResults(res.data);
+                    setOptions(res.data);
                     setError(null);
-                })
-                //将json导入options
-                .then((res) => {
-                    const options = [];
-                    for (let i = 0; i < res.data.length; i++) {
-                        options.push({
-                            value: res.data[i].id,
-                            label: res.data[i].title,
-                        });
-                    }
-                    setOptions(options);
                 })
                 .catch((err) => {
                     console.error(err);
