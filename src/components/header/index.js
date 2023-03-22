@@ -3,6 +3,7 @@ import './header.css';
 import LOGO from './logo.png';
 import axios from 'axios';
 import { Select } from 'antd';
+import {json} from "react-router-dom";
 
 const SearchBox = () => {
     const [type, setType] = useState("all");
@@ -18,8 +19,10 @@ const SearchBox = () => {
                 .get(`http://localhost:5000/search?name=${value}&type=${type}`)
                 .then((res) => {
                     if (res.data.length > 0) {
-                        setOptions(res.data);
-                        console.log('res:',res.data)
+                        console.log('res',res.data)
+                        const data = JSON.parse(res.data)
+                        const fdata = Object.values(data)
+                        setOptions(1);
                     } else {
                         setOptions(null);
                     }
