@@ -1,8 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import './header.css';
 import LOGO from './logo.png';
 import axios from 'axios';
-import { DropdownButton, Dropdown, OverlayTrigger, Popover } from "react-bootstrap";
 import { Select } from 'antd';
 
 const SearchBox = () => {
@@ -128,10 +127,7 @@ const SearchBox = () => {
                 ]}
             />
         </span>
-
-                <OverlayTrigger trigger="click" placement="bottom" >
                     <Select className='select' showSearch options={options} onChange={onChange} onSearch={onSearch}></Select>
-                </OverlayTrigger>
             </div>
             {error ? (
                 <p>{error}</p>
