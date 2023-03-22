@@ -19,6 +19,7 @@ const SearchBox = () => {
                 .then((res) => {
                     if (res.data.length > 0) {
                         setOptions(res.data);
+                        console.log('res:',res.data)
                     } else {
                         setOptions(null);
                     }
