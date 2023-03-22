@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import './home.css'
-import Header from '../../components/header'
 import Map from '../../components/map'
 
 
