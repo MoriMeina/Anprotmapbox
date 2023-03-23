@@ -2,27 +2,53 @@ import React, {useState} from 'react';
 import './header.css';
 import LOGO from './logo.png';
 import axios from 'axios';
-import { Select } from 'antd';
-import {json} from "react-router-dom";
+import {Drawer, Select} from 'antd';
+import {Document,Page} from "react-pdf";
 
 const SearchBox = () => {
     const [type, setType] = useState("all");
     const [selectedAnimal, setSelectedAnimal] = useState(null);
-    const [options,setOptions] = useState([]);
+    const [options, setOptions] = useState([]);
+    const [visible, setVisible] = useState(false);
+    const [pdfUrl, setPdfUrl] = useState(null);
+    const [numPages, setNumPages] = useState(null);
+    const [pageNumber, setPageNumber] = useState(1);
+    //左侧弹出抽屉显示PDF文件内容
+const onDocumentLoadSuccess = ({ numPages }) => {
+    setNumPages(numPages);
+};
 
-    const onChange = (value) => {
-        console.log(`selected ${value}`);
-    };
+const onPageChange = ({ pageNumber }) => {
+    setPageNumber(pageNumber);
+};
+    const showDrawer = async (value) => {
+        console.log('download_file:',value)
+        setVisible(true);
+        const response = await axios.get(`http://localhost:5000/pdf/${value}`, { responseType: 'blob' });
+        const file = new Blob([response.data], { type: 'application/pdf' });
+        const fileUrl = URL.createObjectURL(file);
+        setPdfUrl(fileUrl);
+        };
+
+    const onClose = () => {
+        setVisible(false);
+    }
+
+    //搜索框下弹出列表
     const onSearch = (value) => {
         if (value) {
             axios
                 .get(`http://localhost:5000/search?name=${value}&type=${type}`)
                 .then((res) => {
-                    if (res.data.length > 0) {
-                        console.log('res',res.data)
-                        const data = JSON.parse(res.data)
-                        const fdata = Object.values(data)
-                        setOptions(1);
+                    console.log('res', res.data.data)
+                    if (res.data.data.label.length > 0) {
+                        const labels = Object.values(res.data.data.label)
+                        const values = Object.values(res.data.data.value)
+                        const option = values.map((value, index) => ({
+                            label: labels[index],
+                            value: value,
+                        }));
+                        setOptions(option);
                     } else {
                         setOptions(null);
                     }
@@ -30,7 +56,7 @@ const SearchBox = () => {
                 .catch((err) => {
                     console.error(err);
                 });
-            console.log('options:',options)
+            console.log('options:', options)
             console.log('search:', value);
         }
     };
@@ -40,20 +66,10 @@ const SearchBox = () => {
         console.log(value);
     };
 
-    return (
+return (
         <div className="header_right_search">
             <div className="input">
         <span>
-          {/*<DropdownButton*/}
-          {/*    id="dropdown-basic-button"*/}
-          {/*    title={type || "all"}*/}
-          {/*    onSelect={(e) => setType(e)}*/}
-          {/*>*/}
-          {/*  <Dropdown.Item eventKey="all">全部搜索</Dropdown.Item>*/}
-          {/*  <Dropdown.Item eventKey="Class">按类搜索</Dropdown.Item>*/}
-          {/*  <Dropdown.Item eventKey="Order">按目搜索</Dropdown.Item>*/}
-          {/*  <Dropdown.Item eventKey="Level">濒危等级搜索</Dropdown.Item>*/}
-          {/*</DropdownButton>*/}
             <Select
                 labelInValue
                 defaultValue={{
@@ -61,7 +77,7 @@ const SearchBox = () => {
                     label: '全部搜索',
                 }}
                 style={{
-                    width: 80,background:"transparent",border:"none"
+                    width: 80, background: "transparent", border: "none"
                 }}
                 onChange={handleChange}
                 options={[
@@ -84,7 +100,9 @@ const SearchBox = () => {
                 ]}
             />
         </span>
-                    <Select className='select' showSearch options={options} onChange={onChange} onSearch={onSearch}></Select>
+                <Select className='select' showSearch options={options} filterOption={false} onChange={showDrawer} onSearch={onSearch}></Select>
+                {/*<DebounceSelect mode="multiple" value={value} placeholder="Select Animals" fetchOptions={fetchUserList} onChange={(newValue) => {setValue(newValue);}} style={{width: '100%',}}*/}
+                {/*/>*/}
             </div>
 
             {selectedAnimal && (
@@ -95,15 +113,26 @@ const SearchBox = () => {
                     <img className="profile-image" src={selectedAnimal} alt="Animal Profile"/>
                 </div>
             )}
-
+            <Drawer
+                title="Basic Drawer"
+                placement="left"
+                closable={false}
+                onClose={onClose}
+                visible={visible}
+            >
+                <div>
+                        <Document file={pdfUrl} onLoadSuccess={onDocumentLoadSuccess}>
+                            <Page pageNumber={pageNumber} onPageChange={onPageChange} />
+                        </Document>
+                        <p>
+                            Page {pageNumber} of {numPages}
+                        </p>
+                </div>
+            </Drawer>
             <div className="filter-button">按</div>
         </div>
     );
 };
-
-
-
-
 
 
 // 主结构
