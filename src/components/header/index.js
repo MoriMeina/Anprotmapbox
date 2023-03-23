@@ -4,12 +4,13 @@ import LOGO from './logo.png';
 import axios from 'axios';
 import {Drawer, Select} from 'antd';
 import {Document,Page} from "react-pdf";
+import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 
 const SearchBox = () => {
     const [type, setType] = useState("all");
     const [selectedAnimal, setSelectedAnimal] = useState(null);
     const [options, setOptions] = useState([]);
-    const [visible, setVisible] = useState(false);
+    const [open, setOpen] = useState(false);
     const [pdfUrl, setPdfUrl] = useState(null);
     const [numPages, setNumPages] = useState(null);
     const [pageNumber, setPageNumber] = useState(1);
@@ -23,7 +24,7 @@ const onPageChange = ({ pageNumber }) => {
 };
     const showDrawer = async (value) => {
         console.log('download_file:',value)
-        setVisible(true);
+        setOpen(true);
         const response = await axios.get(`http://localhost:5000/pdf/${value}`, { responseType: 'blob' });
         const file = new Blob([response.data], { type: 'application/pdf' });
         const fileUrl = URL.createObjectURL(file);
@@ -31,7 +32,7 @@ const onPageChange = ({ pageNumber }) => {
         };
 
     const onClose = () => {
-        setVisible(false);
+        setOpen(false);
     }
 
     //搜索框下弹出列表
@@ -100,7 +101,7 @@ return (
                 ]}
             />
         </span>
-                <Select className='select' showSearch options={options} filterOption={false} onChange={showDrawer} onSearch={onSearch}></Select>
+                <Select className='select' showSearch options={options} filterOption={false} onSelect={showDrawer} onSearch={onSearch}></Select>
                 {/*<DebounceSelect mode="multiple" value={value} placeholder="Select Animals" fetchOptions={fetchUserList} onChange={(newValue) => {setValue(newValue);}} style={{width: '100%',}}*/}
                 {/*/>*/}
             </div>
@@ -118,7 +119,8 @@ return (
                 placement="left"
                 closable={false}
                 onClose={onClose}
-                visible={visible}
+                open={open}
+                width={500}
             >
                 <div>
                         <Document file={pdfUrl} onLoadSuccess={onDocumentLoadSuccess}>
