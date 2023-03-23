@@ -4,7 +4,9 @@ import LOGO from './logo.png';
 import axios from 'axios';
 import {Drawer, Select} from 'antd';
 import {Document,Page} from "react-pdf";
-import "react-pdf/dist/esm/Page/AnnotationLayer.css";
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+import { pdfjs } from 'react-pdf';
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const SearchBox = () => {
     const [type, setType] = useState("all");
@@ -13,15 +15,7 @@ const SearchBox = () => {
     const [open, setOpen] = useState(false);
     const [pdfUrl, setPdfUrl] = useState(null);
     const [numPages, setNumPages] = useState(null);
-    const [pageNumber, setPageNumber] = useState(1);
     //左侧弹出抽屉显示PDF文件内容
-const onDocumentLoadSuccess = ({ numPages }) => {
-    setNumPages(numPages);
-};
-
-const onPageChange = ({ pageNumber }) => {
-    setPageNumber(pageNumber);
-};
     const showDrawer = async (value) => {
         console.log('download_file:',value)
         setOpen(true);
@@ -115,21 +109,29 @@ return (
                 </div>
             )}
             <Drawer
-                title="Basic Drawer"
+                title="详细信息"
                 placement="left"
                 closable={false}
                 onClose={onClose}
                 open={open}
-                width={500}
+                width={650}
             >
-                <div>
-                        <Document file={pdfUrl} onLoadSuccess={onDocumentLoadSuccess}>
-                            <Page pageNumber={pageNumber} onPageChange={onPageChange} />
-                        </Document>
-                        <p>
-                            Page {pageNumber} of {numPages}
-                        </p>
-                </div>
+                <Document
+                    file={pdfUrl}
+                    onLoadSuccess={({ numPages }) => {
+                        setNumPages(numPages);
+                    }}
+                    error={(error) => console.error('Error while loading PDF:', error)}
+                >
+                    {Array.from(new Array(numPages), (el, index) => (
+                        <Page
+                            key={`page_${index + 1}`}
+                            pageNumber={index + 1}
+                            onLoadError={(error) => console.error('Error while loading page:', error)}
+
+                        />
+                    ))}
+                </Document>
             </Drawer>
             <div className="filter-button">按</div>
         </div>

@@ -104,11 +104,25 @@ const Map = () => {
     useEffect(() => {
         const map = new mapboxgl.Map({
             container: 'map',
+            projection: 'globe',
             style: 'mapbox://styles/mapbox/satellite-v9',
-            center: [0, 0],
-            zoom: 2,
+            center: [
+                105.54358038269157,
+                35.46678314428422
+            ],
+            zoom: 3,
         });
 
+
+        map.on('style.load', () => {
+            map.setFog({
+                color: 'rgb(186, 210, 235)', // Lower atmosphere
+                'high-color': 'rgb(36, 92, 223)', // Upper atmosphere
+                'horizon-blend': 0.02, // Atmosphere thickness (default 0.2 at low zooms)
+                'space-color': 'rgb(11, 11, 25)', // Background color
+                'star-intensity': 0.6 // Background star brightness (default 0.35 at low zoooms )
+            });
+        });
         map.on('load', () => {
             console.log("markers", markers);
             if (markers.length > 0) {
@@ -127,6 +141,9 @@ const Map = () => {
                     },
                 });
 
+
+
+
                 map.addLayer({
                     id: 'markers',
                     source: 'markers',
@@ -140,8 +157,6 @@ const Map = () => {
                 markers.forEach((marker, index) => {
                     marker.properties.id = index;
                 });
-
-
 
 
 

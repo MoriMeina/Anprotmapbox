@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@pdftron/webviewer": "^8.12.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -12,6 +13,7 @@
     "fetch-jsonp": "^1.2.3",
     "jquery": "^3.6.4",
     "mapbox-gl": "^2.13.0",
+    "pdfjs-dist": "^3.4.120",
     "popper.js": "^1.16.1",
     "qs": "^6.11.1",
     "react": "^18.2.0",
