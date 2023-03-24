@@ -1,208 +1,149 @@
-// import React, { useEffect, useState } from 'react';
-// import axios from 'axios';
-// import mapboxgl from 'mapbox-gl';
-//
-// mapboxgl.accessToken = 'pk.eyJ1IjoibWVpbmE5NzU4IiwiYSI6ImNsZWZvZndjYjA1bmk0NW1yNTNoemV0MDcifQ.-BIoKfejC5g2bCEVCZMtOg';
-//
-// const Map = () => {
-//     const [markers, setMarkers] = useState([]);
-//
-//     useEffect(() => {
-//         const fetchData = async () => {
-//             try {
-//                 const response = await axios.get('http://localhost:5000/api/location');
-//                 if (response && response.data && response.data.features) {
-//                     setMarkers(response.data.features);
-//                 }
-//             } catch (error) {
-//                 console.error(error);
-//             }
-//         };
-//
-//         fetchData();
-//     }, []);
-//
-//     useEffect(() => {
-//         const map = new mapboxgl.Map({
-//             container: 'map',
-//             style: 'mapbox://styles/mapbox/satellite-v9',
-//             center: [0, 0],
-//             zoom: 2,
-//         });
-//
-//         map.on('load', () => {
-//             if (markers.length > 0) {
-//                 map.addSource('markers', {
-//                     type: 'geojson',
-//                     data: {
-//                         type: 'FeatureCollection',
-//                         features: markers.map((marker) => ({
-//                             type: 'Feature',
-//                             properties: { name: marker.properties.name },
-//                             geometry: {
-//                                 type: 'Point',
-//                                 coordinates: marker.geometry.coordinates,
-//                             },
-//                         })),
-//                     },
-//                 });
-//
-//                 map.addLayer({
-//                     id: 'markers',
-//                     source: 'markers',
-//                     type: 'circle',
-//                     paint: {
-//                         'circle-radius': 8,
-//                         'circle-color': '#B42222',
-//                     },
-//                 });
-//             }
-//         });
-//
-//         return () => {
-//             map.remove();
-//         };
-//     }, [markers]);
-//
-//     return <div id="map" style={{ width: '100%', height: '500px' }} />;
-// };
-//
-// export default Map;
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, {useEffect, useState} from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import './map.css';
-import 'supercluster';
 import Header from '../header';
+import PDFShower from '../PDFShower';
+import {Drawer} from "antd";
+import axios from "axios";
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibWVpbmE5NzU4IiwiYSI6ImNsZWZvZndjYjA1bmk0NW1yNTNoemV0MDcifQ.-BIoKfejC5g2bCEVCZMtOg';
 
 
 
-
-
-const Map = () => {
+const Map = (props) => {
+    const [open, setOpen] = useState(false);
+    const [value, setValue] = useState('');
     const [markers, setMarkers] = useState([]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get('http://localhost:5000/api/location');
-                if (response && response.data && response.data.features) {
-                    setMarkers(response.data.features);
-                }
-            } catch (error) {
-                console.error(error);
-            }
-        };
+    const onClose = () => {
+        setOpen(false);
+    };
 
-        fetchData();
-    }, []);
-
+    const onOpen = async (value) => {
+        console.log('download_file:',value)
+        setOpen(true);
+        const response = await axios.get(`http://localhost:5000/pdf/${value}`, { responseType: 'blob' });
+        const file = new Blob([response.data], { type: 'application/pdf' });
+        const fileUrl = URL.createObjectURL(file);
+        setValue(fileUrl);
+    };
 
     useEffect(() => {
-        const map = new mapboxgl.Map({
-            container: 'map',
-            projection: 'globe',
-            style: 'mapbox://styles/mapbox/satellite-v9',
-            center: [
-                105.54358038269157,
-                35.46678314428422
-            ],
-            zoom: 3,
-        });
-
-
-        map.on('style.load', () => {
-            map.setFog({
-                color: 'rgb(186, 210, 235)', // Lower atmosphere
-                'high-color': 'rgb(36, 92, 223)', // Upper atmosphere
-                'horizon-blend': 0.02, // Atmosphere thickness (default 0.2 at low zooms)
-                'space-color': 'rgb(11, 11, 25)', // Background color
-                'star-intensity': 0.6 // Background star brightness (default 0.35 at low zoooms )
+            setMarkers(props.markers);
+            const map = new mapboxgl.Map({
+                container: 'map',
+                projection: 'globe',
+                style: 'mapbox://styles/mapbox/satellite-v9',
+                center: [
+                    105.54358038269157,
+                    35.46678314428422
+                ],
+                zoom: 3,
             });
-        });
-        map.on('load', () => {
-            console.log("markers", markers);
-            if (markers.length > 0) {
-                map.addSource('markers', {
-                    type: 'geojson',
-                    data: {
-                        type: 'FeatureCollection',
-                        features: markers.map((marker) => ({
-                            type: 'Feature',
-                            properties: { name: marker.properties.name },
-                            geometry: {
-                                type: 'Point',
-                                coordinates: marker.geometry.coordinates,
-                            },
-                        })),
-                    },
+            map.on('style.load', () => {
+                map.setFog({
+                    color: 'rgb(186, 210, 235)', // Lower atmosphere
+                    'high-color': 'rgb(36, 92, 223)', // Upper atmosphere
+                    'horizon-blend': 0.02, // Atmosphere thickness (default 0.2 at low zooms)
+                    'space-color': 'rgb(11, 11, 25)', // Background color
+                    'star-intensity': 0.6 // Background star brightness (default 0.35 at low zoooms )
                 });
+            });
+            map.on('load', () => {
+                console.log("markers", markers);
+                if (markers.length > 0) {
+                    map.addSource('markers', {
+                        type: 'geojson',
+                        data: {
+                            type: 'FeatureCollection',
+                            features: markers.map((marker) => ({
+                                type: 'Feature',
+                                properties: {name: marker.properties.name, id: marker.properties.id},
+                                geometry: {
+                                    type: 'Point',
+                                    coordinates: marker.geometry.coordinates,
+                                },
+                            })),
+                        },
+                    });
+                    map.addLayer({
+                        id: 'markers',
+                        source: 'markers',
+                        type: 'circle',
+                        paint: {
+                            'circle-radius': 8,
+                            'circle-color': '#225cb4',
+                        },
+                    });
 
+                    // // Add click event to markers
+                    map.on('click', 'markers', (e) => {
+                        axios.get(`http://localhost:5000/api/pdfname?name=${e.features[0].properties.name}`
+                        ).then(res => {
+                            console.log(res.data);
+                            const pdfname = res.data
+                            onOpen(pdfname).then(r => {
+                                console.log(r);
+                            });
+                        });
 
+                    });
 
+                    map.on('mouseenter', 'markers', (e) => {
+                        const coordinates = e.features[0].geometry.coordinates.slice();
+                        const name = e.features[0].properties.name;
+                        const description = `<strong>${name}</strong>`;
 
-                map.addLayer({
-                    id: 'markers',
-                    source: 'markers',
-                    type: 'circle',
-                    paint: {
-                        'circle-radius': 8,
-                        'circle-color': '#225cb4',
-                    },
-                });
-                // Add a unique id to each marker
-                markers.forEach((marker, index) => {
-                    marker.properties.id = index;
-                });
+                        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                            coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                        }
 
+                        const popup = new mapboxgl.Popup({closeButton: false})
+                            .setLngLat(coordinates)
+                            .setHTML(description)
+                            .addTo(map);
 
+                        map.on('mouseleave', 'markers', () => {
+                            popup.remove();
+                        });
+                    });
 
+                    // Change the cursor to a pointer when the mouse is over the places layer.
+                    map.on('mouseenter', 'markers', () => {
+                        map.getCanvas().style.cursor = 'pointer';
+                    });
 
-                // // Add click event to markers
-                map.on('click', 'markers', (e) => {
-                    const coordinates = e.features[0].geometry.coordinates.slice();
-                    const name = e.features[0].properties.name;
-                    const description = `<strong>${name}</strong>`;
+                    // Change it back to a pointer when it leaves.
+                    map.on('mouseleave', 'markers', () => {
+                        map.getCanvas().style.cursor = '';
+                    });
+                }
+            });
 
-                    // Ensure that if the map is zoomed out such that multiple
-                    // copies of the feature are visible, the popup appears
-                    // over the copy being pointed to.
-                    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-                    }
+            return () => {
+                map.remove();
+            };
+        },
+        [markers,props.markers]);
 
-                    new mapboxgl.Popup()
-                        .setLngLat(coordinates)
-                        .setHTML(description)
-                        .addTo(map);
-                });
-
-
-
-
-
-
-                // Change the cursor to a pointer when the mouse is over the places layer.
-                map.on('mouseenter', 'markers', () => {
-                    map.getCanvas().style.cursor = 'pointer';
-                });
-
-                // Change it back to a pointer when it leaves.
-                map.on('mouseleave', 'markers', () => {
-                    map.getCanvas().style.cursor = '';
-                });
-            }
-        });
-
-        return () => {
-            map.remove();
-        };
-    }, [markers]);
-
-    return <div id="map" style={{ width: '100%', height: '100%' }} ><Header/></div>;
+    return (
+        <div id="map" style={{width: '100%', height: '100%'}}>
+            <Header/>
+            <Drawer
+                title="详细信息"
+                placement="left"
+                closable={false}
+                onClose={onClose}
+                open={open}
+                width={650}
+            >
+                <div>
+                    <PDFShower pdfUrl={value}/>
+                </div>
+            </Drawer>
+        </div>
+    )
 };
 
 export default Map;

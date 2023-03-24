@@ -3,31 +3,41 @@ import './header.css';
 import LOGO from './logo.png';
 import axios from 'axios';
 import {Drawer, Select} from 'antd';
-import {Document,Page} from "react-pdf";
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import { pdfjs } from 'react-pdf';
+import PDFShower from '../PDFShower';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+
+
 
 const SearchBox = () => {
     const [type, setType] = useState("all");
     const [selectedAnimal, setSelectedAnimal] = useState(null);
     const [options, setOptions] = useState([]);
+    const [value, setValue] = useState([]);
     const [open, setOpen] = useState(false);
-    const [pdfUrl, setPdfUrl] = useState(null);
-    const [numPages, setNumPages] = useState(null);
+    // const [pdfUrl, setPdfUrl] = useState(null);
+    // const [numPages, setNumPages] = useState(null);
     //左侧弹出抽屉显示PDF文件内容
-    const showDrawer = async (value) => {
+    const onClose = () => {
+        setOpen(false);
+    };
+
+    const onOpen = async (value) => {
         console.log('download_file:',value)
         setOpen(true);
         const response = await axios.get(`http://localhost:5000/pdf/${value}`, { responseType: 'blob' });
         const file = new Blob([response.data], { type: 'application/pdf' });
         const fileUrl = URL.createObjectURL(file);
-        setPdfUrl(fileUrl);
-        };
+        setValue(fileUrl);
+    };
 
-    const onClose = () => {
-        setOpen(false);
-    }
+
+    // const onOpen = () => {
+    //     console.log('download_file:',value)
+    //     setValue(value)
+    //     setOpen(true);
+    // };
 
     //搜索框下弹出列表
     const onSearch = (value) => {
@@ -48,6 +58,7 @@ const SearchBox = () => {
                         setOptions(null);
                     }
                 })
+
                 .catch((err) => {
                     console.error(err);
                 });
@@ -95,9 +106,7 @@ return (
                 ]}
             />
         </span>
-                <Select className='select' showSearch options={options} filterOption={false} onSelect={showDrawer} onSearch={onSearch}></Select>
-                {/*<DebounceSelect mode="multiple" value={value} placeholder="Select Animals" fetchOptions={fetchUserList} onChange={(newValue) => {setValue(newValue);}} style={{width: '100%',}}*/}
-                {/*/>*/}
+                <Select className='select' showSearch options={options} filterOption={false} onSelect={onOpen} onSearch={onSearch}></Select>
             </div>
 
             {selectedAnimal && (
@@ -116,23 +125,36 @@ return (
                 open={open}
                 width={650}
             >
-                <Document
-                    file={pdfUrl}
-                    onLoadSuccess={({ numPages }) => {
-                        setNumPages(numPages);
-                    }}
-                    error={(error) => console.error('Error while loading PDF:', error)}
-                >
-                    {Array.from(new Array(numPages), (el, index) => (
-                        <Page
-                            key={`page_${index + 1}`}
-                            pageNumber={index + 1}
-                            onLoadError={(error) => console.error('Error while loading page:', error)}
-
-                        />
-                    ))}
-                </Document>
+                <div>
+                    <PDFShower pdfUrl={value}/>
+                </div>
             </Drawer>
+
+            {/*<Drawer*/}
+            {/*    title="详细信息"*/}
+            {/*    placement="left"*/}
+            {/*    closable={false}*/}
+            {/*    onClose={onClose}*/}
+            {/*    open={open}*/}
+            {/*    width={650}*/}
+            {/*>*/}
+            {/*    <Document*/}
+            {/*        file={pdfUrl}*/}
+            {/*        onLoadSuccess={({ numPages }) => {*/}
+            {/*            setNumPages(numPages);*/}
+            {/*        }}*/}
+            {/*        error={(error) => console.error('Error while loading PDF:', error)}*/}
+            {/*    >*/}
+            {/*        {Array.from(new Array(numPages), (el, index) => (*/}
+            {/*            <Page*/}
+            {/*                key={`page_${index + 1}`}*/}
+            {/*                pageNumber={index + 1}*/}
+            {/*                onLoadError={(error) => console.error('Error while loading page:', error)}*/}
+
+            {/*            />*/}
+            {/*        ))}*/}
+            {/*    </Document>*/}
+            {/*</Drawer>*/}
             <div className="filter-button">按</div>
         </div>
     );

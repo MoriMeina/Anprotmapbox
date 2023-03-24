@@ -17,7 +17,6 @@
     right: 0;
     border-radius: 20px;
     padding: 0.5%;
-    justify-content: space-between;
 }
 
 /*.header_left{*/
@@ -146,9 +145,6 @@
     background-color: #a8a8a8;
 }
 
-.input span {
-    padding: 0px;
-}
 
 .btn {
     display: inline-block;
@@ -186,7 +182,7 @@
     border: none;
     width: 80%; /* Reduce the percentage value */
     box-sizing: border-box; /* Add a box-sizing value */
-    border-radius: 0px 15px 15px 0px; /* Add a border radius to match the search box */
+    border-radius: 0 15px 15px 0; /* Add a border radius to match the search box */
 }
 
 .btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show > .btn-primary.dropdown-toggle {
@@ -225,7 +221,6 @@
     margin: 0.125rem 0 0;
     font-size: 1rem;
     color: #212529;
-    text-align: left;
     list-style: none;
     background-color: #fff;
     background-clip: padding-box;
@@ -250,10 +245,6 @@
     color: #fff;
     background-color: transparent;
     border-color: transparent;
-    border-top-color: transparent;
-    border-right-color: transparent;
-    border-bottom-color: transparent;
-    border-left-color: transparent;
     box-shadow: transparent;
 }
 
@@ -267,4 +258,17 @@
 .ant-select-selection-item{
     display: flex;
     align-items: center;
+}
+:where(.css-dev-only-do-not-override-mxhywb).ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    position: relative;
+    background-color: transparent;
+    border: 1px solid #d9d9d9;
+    transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+:where(.css-dev-only-do-not-override-mxhywb).ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    position: relative;
+    background-color: transparent;
+    border: transparent;
+    border-radius: 15px;
+    transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
 }

@@ -1,18 +1,33 @@
-import React, {Component} from 'react'
-import './home.css'
-import Map from '../../components/map'
+import React, { useEffect, useState} from 'react';
+import './home.css';
+import Map from '../../components/map';
+import axios from "axios";
 
 
-class Home extends Component {
-    render() {
-        return (
-            <div className="P-home">
-                <div className={"map"}>
-                    <Map/>
-                </div>
+const Home = () => {
+    const [markers, setMarkers] = useState([]);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/api/location');
+                if (response && response.data && response.data.features) {
+                    setMarkers(response.data.features)
+                    console.log(response.data.features)
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchData().then(r => console.log(r));
+    }, []);
+    return (
+        <div className="P-home">
+            <div className={"map"}>
+                <Map markers={() => markers}/>
             </div>
-        )
-    }
+        </div>
+    )
 }
 
 export default Home
