@@ -10,7 +10,6 @@ import axios from "axios";
 mapboxgl.accessToken = 'pk.eyJ1IjoibWVpbmE5NzU4IiwiYSI6ImNsZWZvZndjYjA1bmk0NW1yNTNoemV0MDcifQ.-BIoKfejC5g2bCEVCZMtOg';
 
 
-
 const Map = (props) => {
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState('');
@@ -21,10 +20,10 @@ const Map = (props) => {
     };
 
     const onOpen = async (value) => {
-        console.log('download_file:',value)
+        console.log('download_file:', value)
         setOpen(true);
-        const response = await axios.get(`http://localhost:5000/pdf/${value}`, { responseType: 'blob' });
-        const file = new Blob([response.data], { type: 'application/pdf' });
+        const response = await axios.get(`http://localhost:5000/pdf/${value}`, {responseType: 'blob'});
+        const file = new Blob([response.data], {type: 'application/pdf'});
         const fileUrl = URL.createObjectURL(file);
         setValue(fileUrl);
     };
@@ -125,7 +124,7 @@ const Map = (props) => {
                 map.remove();
             };
         },
-        [markers,props.markers]);
+        [markers, props.markers]);
 
     return (
         <div id="map" style={{width: '100%', height: '100%'}}>

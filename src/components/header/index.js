@@ -4,11 +4,10 @@ import LOGO from './logo.png';
 import axios from 'axios';
 import {Drawer, Select} from 'antd';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
-import { pdfjs } from 'react-pdf';
+import {pdfjs} from 'react-pdf';
 import PDFShower from '../PDFShower';
 // noinspection JSUnresolvedVariable
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
-
 
 
 const SearchBox = () => {
@@ -25,10 +24,10 @@ const SearchBox = () => {
     };
 
     const onOpen = async (value) => {
-        console.log('download_file:',value)
+        console.log('download_file:', value)
         setOpen(true);
-        const response = await axios.get(`http://localhost:5000/pdf/${value}`, { responseType: 'blob' });
-        const file = new Blob([response.data], { type: 'application/pdf' });
+        const response = await axios.get(`http://localhost:5000/pdf/${value}`, {responseType: 'blob'});
+        const file = new Blob([response.data], {type: 'application/pdf'});
         const fileUrl = URL.createObjectURL(file);
         setValue(fileUrl);
     };
@@ -73,7 +72,7 @@ const SearchBox = () => {
         console.log(value);
     };
 
-return (
+    return (
         <div className="header_right_search">
             <div className="input">
         <span className="typeButton">
@@ -107,7 +106,8 @@ return (
                 ]}
             />
         </span>
-                <Select className='select' showSearch options={options} filterOption={false} onSelect={onOpen} onSearch={onSearch} style={{backgroundColor:'#cccc'}}></Select>
+                <Select className='select' showSearch options={options} filterOption={false} onSelect={onOpen}
+                        onSearch={onSearch} style={{backgroundColor: '#cccc'}}></Select>
             </div>
 
             {selectedAnimal && (

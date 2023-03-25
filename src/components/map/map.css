@@ -3,6 +3,7 @@
     top: 0;
     bottom: 0;
 }
+
 /*mapboxgl的默认弹出框，在这里修改大小*/
 .mapboxgl-popup-content {
     background: #fff;
@@ -12,6 +13,7 @@
     pointer-events: auto;
     position: relative;
 }
+
 /*弹出框的小三角*/
 /*.mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip {*/
 /*    align-self: center;*/
