@@ -6,6 +6,7 @@ import {Drawer, Select} from 'antd';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import { pdfjs } from 'react-pdf';
 import PDFShower from '../PDFShower';
+// noinspection JSUnresolvedVariable
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 
@@ -75,7 +76,7 @@ const SearchBox = () => {
 return (
         <div className="header_right_search">
             <div className="input">
-        <span>
+        <span className="typeButton">
             <Select
                 labelInValue
                 defaultValue={{
@@ -83,7 +84,7 @@ return (
                     label: '全部搜索',
                 }}
                 style={{
-                    width: 80, background: "transparent", border: "none"
+                    width: 120, background: "transparent", border: "none"
                 }}
                 onChange={handleChange}
                 options={[
@@ -106,7 +107,7 @@ return (
                 ]}
             />
         </span>
-                <Select className='select' showSearch options={options} filterOption={false} onSelect={onOpen} onSearch={onSearch}></Select>
+                <Select className='select' showSearch options={options} filterOption={false} onSelect={onOpen} onSearch={onSearch} style={{backgroundColor:'#cccc'}}></Select>
             </div>
 
             {selectedAnimal && (
