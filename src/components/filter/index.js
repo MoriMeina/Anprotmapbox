@@ -199,7 +199,7 @@ const Filter = () => {
     //----------------------查询并标记------------------------------//
     const queryByClass=async (onMarkersChange) => {
         try {
-            const response = await axios.post('http://localhost:5000/queryByClass', {
+            const response = await axios.post('http://localhost:5000/api/byclass', {
                 class: needtoQuerybyClass,
             })
             if (response && response.data && response.data.features) {
@@ -212,7 +212,7 @@ const Filter = () => {
     };
     const queryByLevel=async (onMarkersChange) => {
         try {
-            const response = await axios.post('http://localhost:5000/queryByLevel', {
+            const response = await axios.post('http://localhost:5000/api/bylevel', {
                 level: needtoQuerybyLevel,
             })
             if (response && response.data && response.data.features) {
