@@ -4,11 +4,10 @@ import LOGO from './logo.png';
 import axios from 'axios';
 import {Drawer, Select} from 'antd';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
-import { pdfjs } from 'react-pdf';
+import {pdfjs} from 'react-pdf';
 import PDFShower from '../PDFShower';
 // noinspection JSUnresolvedVariable
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
-
 
 
 const SearchBox = () => {
@@ -19,16 +18,21 @@ const SearchBox = () => {
     const [open, setOpen] = useState(false);
     // const [pdfUrl, setPdfUrl] = useState(null);
     // const [numPages, setNumPages] = useState(null);
+
+
+
+
+
     //左侧弹出抽屉显示PDF文件内容
     const onClose = () => {
         setOpen(false);
     };
 
     const onOpen = async (value) => {
-        console.log('download_file:',value)
+        console.log('download_file:', value)
         setOpen(true);
-        const response = await axios.get(`http://localhost:5000/pdf/${value}`, { responseType: 'blob' });
-        const file = new Blob([response.data], { type: 'application/pdf' });
+        const response = await axios.get(`http://localhost:5000/pdf/${value}`, {responseType: 'blob'});
+        const file = new Blob([response.data], {type: 'application/pdf'});
         const fileUrl = URL.createObjectURL(file);
         setValue(fileUrl);
     };
@@ -73,7 +77,7 @@ const SearchBox = () => {
         console.log(value);
     };
 
-return (
+    return (
         <div className="header_right_search">
             <div className="input">
         <span className="typeButton">
@@ -82,9 +86,6 @@ return (
                 defaultValue={{
                     value: 'all',
                     label: '全部搜索',
-                }}
-                style={{
-                    width: 120, background: "transparent", border: "none"
                 }}
                 onChange={handleChange}
                 options={[
@@ -107,7 +108,10 @@ return (
                 ]}
             />
         </span>
-                <Select className='select' showSearch options={options} filterOption={false} onSelect={onOpen} onSearch={onSearch} style={{backgroundColor:'#cccc'}}></Select>
+                <div className="searchbox">
+                    <Select style={{position:"absolute",top:"7"}} className='select' showSearch options={options} filterOption={false} onSelect={onOpen}
+                            onSearch={onSearch}></Select>
+                </div>
             </div>
 
             {selectedAnimal && (
@@ -130,33 +134,6 @@ return (
                     <PDFShower pdfUrl={value}/>
                 </div>
             </Drawer>
-
-            {/*<Drawer*/}
-            {/*    title="详细信息"*/}
-            {/*    placement="left"*/}
-            {/*    closable={false}*/}
-            {/*    onClose={onClose}*/}
-            {/*    open={open}*/}
-            {/*    width={650}*/}
-            {/*>*/}
-            {/*    <Document*/}
-            {/*        file={pdfUrl}*/}
-            {/*        onLoadSuccess={({ numPages }) => {*/}
-            {/*            setNumPages(numPages);*/}
-            {/*        }}*/}
-            {/*        error={(error) => console.error('Error while loading PDF:', error)}*/}
-            {/*    >*/}
-            {/*        {Array.from(new Array(numPages), (el, index) => (*/}
-            {/*            <Page*/}
-            {/*                key={`page_${index + 1}`}*/}
-            {/*                pageNumber={index + 1}*/}
-            {/*                onLoadError={(error) => console.error('Error while loading page:', error)}*/}
-
-            {/*            />*/}
-            {/*        ))}*/}
-            {/*    </Document>*/}
-            {/*</Drawer>*/}
-            <div className="filter-button">按</div>
         </div>
     );
 };

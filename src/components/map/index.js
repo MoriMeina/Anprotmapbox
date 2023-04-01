@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import mapboxgl from 'mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
 import './map.css';
 import Header from '../header';
 import PDFShower from '../PDFShower';
-import {Drawer} from "antd";
+import {Button, Drawer, Popover} from "antd";
 import axios from "axios";
+import {FiFilter} from "react-icons/fi";
+import Filter from "../filter";
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibWVpbmE5NzU4IiwiYSI6ImNsZWZvZndjYjA1bmk0NW1yNTNoemV0MDcifQ.-BIoKfejC5g2bCEVCZMtOg';
 
@@ -15,6 +16,15 @@ const Map = (props) => {
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState('');
     const [markers, setMarkers] = useState([]);
+
+
+    const content = <Filter/>;
+
+    const text = <span>Title</span>;
+
+    function handleMarkerChange(newMarkers) {
+        setMarkers(newMarkers);
+    }
 
     const onClose = () => {
         setOpen(false);
@@ -142,6 +152,11 @@ const Map = (props) => {
                     <PDFShower pdfUrl={value}/>
                 </div>
             </Drawer>
+            <Popover placement="topLeft" title={text}  content={content}>
+                <Button style={{background:"#a8a8a8",border:"none",height:"50px",width:"50px",borderRadius:"50px",position:"absolute",top:"90%",left:"3%",zIndex:"1000"}}>
+                    <FiFilter onMarkersChange={handleMarkerChange}/>
+                </Button>
+            </Popover>
         </div>
     )
 };
