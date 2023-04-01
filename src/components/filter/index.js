@@ -87,7 +87,7 @@ const Filter = () => {
         setNeedtoQuerybyLevel([]);
         //清除需要查询的濒危等级
         if (checkedKeysValue.includes('class')) {
-            setNeedtoQuerybyClass(['class'] );
+            setNeedtoQuerybyClass(['class']);
         } else {
             setNeedtoQuerybyClass(checkedKeysValue);
         }
@@ -128,7 +128,7 @@ const Filter = () => {
         setNeedtoQueryAll([]);
         //清除需要查询的ALL
         if (checkedKeysValue1.includes('level')) {
-            setNeedtoQuerybyLevel(['level'] );
+            setNeedtoQuerybyLevel(['level']);
         } else {
             setNeedtoQuerybyLevel(checkedKeysValue1);
         }
@@ -138,8 +138,6 @@ const Filter = () => {
         console.log('onSelect', info);
         setSelectedKeys1(selectedKeysValaue1);
     };
-
-
 
 
     //----------------------------------------------All--------------------------------------------------------//
@@ -181,24 +179,35 @@ const Filter = () => {
     //----------------------------------------查询--------------------------------------------------------------//
     useEffect(() => {
         //根据类查询
-        if(needtoQuerybyClass.length!==0){
-            console.log('需要查询类',needtoQuerybyClass);
+        if (needtoQuerybyClass.length !== 0) {
+            console.log('需要查询类', needtoQuerybyClass);
         }
         //根据濒危等级查询
-        if(needtoQuerybyLevel.length>0){
-            console.log('需要查询濒危等级',needtoQuerybyLevel);
+        if (needtoQuerybyLevel.length > 0) {
+            console.log('需要查询濒危等级', needtoQuerybyLevel);
         }
         //查询所有
-        if(needtoQueryAll.length>0){
-            console.log('需要查询所有',needtoQueryAll);
+        if (needtoQueryAll.length > 0) {
+            console.log('需要查询所有', needtoQueryAll);
         }
-    }, [needtoQuerybyClass,needtoQuerybyLevel,needtoQueryAll]);
-
+    }, [needtoQuerybyClass, needtoQuerybyLevel, needtoQueryAll]);
 
 
     //----------------------查询并标记------------------------------//
-    const queryByClass=async (onMarkersChange) => {
+    const queryByClass = async (onMarkersChange) => {
         try {
+            if(needtoQuerybyClass.length === "class"){
+                try {
+                    const response = await axios.get('http://localhost:5000/api/location');
+                    if (response && response.data && response.data.features) {
+                        console.log(response.data.features)
+                        //回调markers到父组件
+                        onMarkersChange(response.data.features);
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
+            }
             const response = await axios.post('http://localhost:5000/api/byclass', {
                 class: needtoQuerybyClass,
             })
@@ -206,12 +215,24 @@ const Filter = () => {
                 console.log('根据类请求到', response.data.features)
                 onMarkersChange(response.data.features);
             }
-        }catch (error){
+        } catch (error) {
             console.error(error);
         }
     };
-    const queryByLevel=async (onMarkersChange) => {
+    const queryByLevel = async (onMarkersChange) => {
         try {
+            if (needtoQuerybyLevel.length === "level") {
+                try {
+                    const response = await axios.get('http://localhost:5000/api/location');
+                    if (response && response.data && response.data.features) {
+                        console.log(response.data.features)
+                        //回调markers到父组件
+                        onMarkersChange(response.data.features);
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
+            }
             const response = await axios.post('http://localhost:5000/api/bylevel', {
                 level: needtoQuerybyLevel,
             })
@@ -223,11 +244,11 @@ const Filter = () => {
             console.error(error);
         }
     };
-    const queryAll=async (onMarkersChange)=>{
+    const queryAll = async (onMarkersChange) => {
         try {
-            const response = await axios.post('http://localhost:5000/api/location');
+            const response = await axios.get('http://localhost:5000/api/location');
             if (response && response.data && response.data.features) {
-                console.log(response.data.features)
+                console.log('全部请求', response.data.features)
                 //回调markers到父组件
                 onMarkersChange(response.data.features);
             }
