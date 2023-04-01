@@ -105,7 +105,6 @@ const Filter = () => {
     const [selectedKeys1, setSelectedKeys1] = useState([]);
     const [autoExpandParent1, setAutoExpandParent1] = useState(true);
 
-
     //根据濒危等级的显示事件
 
     const onExpand1 = (expandedKeysValue) => {
@@ -194,7 +193,7 @@ const Filter = () => {
 
 
     //----------------------查询并标记------------------------------//
-    const queryByClass = async (onMarkersChange) => {
+    const queryByClass = async (props) => {
         try {
             if(needtoQuerybyClass.length === "class"){
                 try {
@@ -202,7 +201,7 @@ const Filter = () => {
                     if (response && response.data && response.data.features) {
                         console.log(response.data.features)
                         //回调markers到父组件
-                        onMarkersChange(response.data.features);
+                        props.updateMarkers(response.data.features);
                     }
                 } catch (error) {
                     console.error(error);
@@ -213,13 +212,13 @@ const Filter = () => {
             })
             if (response && response.data && response.data.features) {
                 console.log('根据类请求到', response.data.features)
-                onMarkersChange(response.data.features);
+                props.updateMarkers(response.data.features);
             }
         } catch (error) {
             console.error(error);
         }
     };
-    const queryByLevel = async (onMarkersChange) => {
+    const queryByLevel = async (props) => {
         try {
             if (needtoQuerybyLevel.length === "level") {
                 try {
@@ -227,7 +226,9 @@ const Filter = () => {
                     if (response && response.data && response.data.features) {
                         console.log(response.data.features)
                         //回调markers到父组件
-                        onMarkersChange(response.data.features);
+                        return () =>{
+                            props.updateMarkers(response.data.features)
+                        }
                     }
                 } catch (error) {
                     console.error(error);
@@ -238,19 +239,21 @@ const Filter = () => {
             })
             if (response && response.data && response.data.features) {
                 console.log('根据濒危等级请求到', response.data.features)
-                onMarkersChange(response.data.features);
+                return () =>{
+                    props.updateMarkers(response.data.features)
+                }
             }
         } catch (error) {
             console.error(error);
         }
     };
-    const queryAll = async (onMarkersChange) => {
+    const queryAll = async (props) => {
         try {
             const response = await axios.get('http://localhost:5000/api/location');
             if (response && response.data && response.data.features) {
                 console.log('全部请求', response.data.features)
                 //回调markers到父组件
-                onMarkersChange(response.data.features);
+                props.updateMarkers(response.data.features);
             }
         } catch (error) {
             console.error(error);

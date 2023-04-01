@@ -22,9 +22,7 @@ const Map = (props) => {
 
     const text = <span>Title</span>;
 
-    function handleMarkerChange(newMarkers) {
-        setMarkers(newMarkers);
-    }
+
 
     const onClose = () => {
         setOpen(false);
@@ -136,6 +134,9 @@ const Map = (props) => {
             };
         },
         [markers,props.markers]);
+    function updateMarkers(newMarkers) {
+        setMarkers(newMarkers);
+    }
 
     return (
         <div id="map" style={{width: '100%', height: '100%'}}>
@@ -154,7 +155,7 @@ const Map = (props) => {
             </Drawer>
             <Popover placement="topLeft" title={text}  content={content}>
                 <Button style={{background:"#a8a8a8",border:"none",height:"50px",width:"50px",borderRadius:"50px",position:"absolute",top:"90%",left:"3%",zIndex:"1000"}}>
-                    <FiFilter onMarkersChange={handleMarkerChange}/>
+                    <FiFilter updateMarkers={updateMarkers}/>
                 </Button>
             </Popover>
         </div>
