@@ -1,5 +1,5 @@
 import {Tree} from "antd";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import axios from "axios";
 
 
@@ -40,8 +40,8 @@ const treeData1 = [{
     key: 'level',
     children: [
         {
-            title: 'CR级危',
-            key: 'CR级危',
+            title: 'CR极危',
+            key: 'CR极危',
         },
         {
             title: 'EN濒危',
@@ -55,11 +55,17 @@ const treeData1 = [{
 },];
 const Filter = (props) => {
     //----------------------------------------Class------------------------------------------------------------//
-    const [needtoQuerybyClass, setNeedtoQuerybyClass] = useState([]);
+    // const [needtoQuerybyClass, setNeedtoQuerybyClass] = useState([]);
+    const needtoQuerybyClassRef= useRef([])
+
     //设置需要查询的类
-    const [needtoQuerybyLevel, setNeedtoQuerybyLevel] = useState([]);
+    // const [needtoQuerybyLevel, setNeedtoQuerybyLevel] = useState([]);
+    const needtoQuerybyLevelRef = useRef([])
+
     //设置需要查询的濒危等级
-    const [needtoQueryAll, setNeedtoQueryAll] = useState([]);
+    // const [needtoQueryAll, setNeedtoQueryAll] = useState([]);
+    const needtoQueryAllRef = useRef([])
+
     //查询所有
     const [expandedKeys, setExpandedKeys] = useState(['class']);
     const [checkedKeys, setCheckedKeys] = useState(['']);
@@ -82,20 +88,25 @@ const Filter = (props) => {
         //清除all的状态
         setCheckedKeys1([]);
         //清除濒危等级的状态
-        setNeedtoQueryAll([]);
+        // setNeedtoQueryAll([]);
+        needtoQueryAllRef.current = [];
         //清除需要查询的ALL
-        setNeedtoQuerybyLevel([]);
+        // setNeedtoQuerybyLevel([]);
+        needtoQuerybyLevelRef.current = [];
         //清除需要查询的濒危等级
         if (checkedKeysValue.includes('class')) {
-            setNeedtoQuerybyClass(['class']);
+            // setNeedtoQuerybyClass(['class']);
+            needtoQuerybyClassRef.current = ['class'];
+
         } else {
-            setNeedtoQuerybyClass(checkedKeysValue);
+            // setNeedtoQuerybyClass(checkedKeysValue);
+            needtoQuerybyClassRef.current = checkedKeysValue
         }
         queryAndMapping();
     };
-    const onSelect = (selectedKeysValaue, info) => {
+    const onSelect = (selectedKeysValue, info) => {
         console.log('onSelect', info);
-        setSelectedKeys(selectedKeysValaue);
+        setSelectedKeys(selectedKeysValue);
     };
 
 
@@ -122,14 +133,18 @@ const Filter = (props) => {
         //清除all的状态
         setCheckedKeys([]);
         //清除类的状态
-        setNeedtoQuerybyClass([]);
+        // setNeedtoQuerybyClass([]);
+        needtoQuerybyClassRef.current = [];
         //清除需要查询的类
-        setNeedtoQueryAll([]);
+        // setNeedtoQueryAll([]);
+        needtoQueryAllRef.current = [];
         //清除需要查询的ALL
         if (checkedKeysValue1.includes('level')) {
-            setNeedtoQuerybyLevel(['level']);
+            // setNeedtoQuerybyLevel(['level']);
+            needtoQuerybyLevelRef.current = ['level'];
         } else {
-            setNeedtoQuerybyLevel(checkedKeysValue1);
+            // setNeedtoQuerybyLevel(checkedKeysValue1);
+            needtoQuerybyLevelRef.current = checkedKeysValue1;
         }
         queryAndMapping();
     };
@@ -161,11 +176,14 @@ const Filter = (props) => {
         //清除类的状态
         setCheckedKeys1([]);
         //清除濒危等级的状态
-        setNeedtoQueryAll(['all']);
+        // setNeedtoQueryAll(['all']);
+        needtoQueryAllRef.current = ['all'];
         //设置需要查询all
-        setNeedtoQuerybyLevel([]);
+        // setNeedtoQuerybyLevel([]);
+        needtoQuerybyLevelRef.current = [];
         //清除需要查询的濒危等级
-        setNeedtoQuerybyClass([]);
+        // setNeedtoQuerybyClass([]);
+        needtoQuerybyClassRef.current = [];
         //清除需要查询的类
         queryAndMapping();
     };
@@ -176,30 +194,31 @@ const Filter = (props) => {
 
 
     //-----------------------查询-----------------------------//
+
+
     useEffect(() => {
         //根据类查询
-        if (needtoQuerybyClass.length !== 0) {
-            console.log('需要查询类', needtoQuerybyClass);
+        if (needtoQuerybyClassRef.current.length !== 0) {
+            console.log('需要查询类', needtoQuerybyClassRef.current);
         }
         //根据濒危等级查询
-        if (needtoQuerybyLevel.length > 0) {
-            console.log('需要查询濒危等级', needtoQuerybyLevel);
+        if (needtoQuerybyLevelRef.current.length !== 0) {
+            console.log('需要查询濒危等级', needtoQuerybyLevelRef.current);
         }
         //查询所有
-        if (needtoQueryAll.length > 0) {
-            console.log('需要查询所有', needtoQueryAll);
+        if (needtoQueryAllRef.current.length !== 0) {
+            console.log('需要查询所有', needtoQueryAllRef.current);
         }
-    }, [needtoQuerybyClass, needtoQuerybyLevel, needtoQueryAll]);
-
+    }, [needtoQuerybyClassRef.current, needtoQuerybyLevelRef.current, needtoQueryAllRef.current]);
 
     //----------------------查询并标记------------------------------//
-    const queryByClass = async (props) => {
+    const queryByClass = async () => {
         try {
-            if (needtoQuerybyClass.length === "class") {
+            if (needtoQuerybyClassRef.current === "class") {
                 try {
                     const response = await axios.get('http://localhost:5000/api/location');
                     if (response && response.data && response.data.features) {
-                        console.log(response.data.features)
+                        console.log('请求全部类',response.data.features)
                         //设置markers
                         props.updateMarker(response.data.features)
                     }
@@ -208,7 +227,7 @@ const Filter = (props) => {
                 }
             }
             const response = await axios.post('http://localhost:5000/api/byclass', {
-                class: needtoQuerybyClass,
+                class: needtoQuerybyClassRef.current,
             })
             if (response && response.data && response.data.features) {
                 console.log('根据类请求到', response.data.features)
@@ -220,11 +239,11 @@ const Filter = (props) => {
     };
     const queryByLevel = async () => {
         try {
-            if (needtoQuerybyLevel.length === "level") {
+            if (needtoQuerybyLevelRef.current === "level") {
                 try {
                     const response = await axios.get('http://localhost:5000/api/location');
                     if (response && response.data && response.data.features) {
-                        console.log(response.data.features)
+                        console.log('请求全部濒危等级',response.data.features)
                         //设置markers
                         props.updateMarker(response.data.features)
                     }
@@ -233,7 +252,7 @@ const Filter = (props) => {
                 }
             }
             const response = await axios.post('http://localhost:5000/api/bylevel', {
-                level: needtoQuerybyLevel,
+                level: needtoQuerybyLevelRef.current,
             })
             if (response && response.data && response.data.features) {
                 console.log('根据濒危等级请求到', response.data.features)
@@ -258,19 +277,19 @@ const Filter = (props) => {
 
     const queryAndMapping = () => {
         //如果需要查询的类不为空
-        if (needtoQuerybyClass.length !== 0) {
+        if (needtoQuerybyClassRef.current.length !== 0) {
             queryByClass().catch((error) => {
                 console.error(error);
             });
         }
         //如果需要查询的濒危等级不为空
-        if (needtoQuerybyLevel.length !== 0) {
+        if (needtoQuerybyLevelRef.current.length !== 0) {
             queryByLevel().catch((error) => {
                 console.error(error);
             });
         }
         //如果需要查询的all不为空
-        if (needtoQueryAll.length !== 0) {
+        if (needtoQueryAllRef.current.length !== 0) {
             queryAll().catch((error) => {
                 console.error(error);
             });
@@ -278,21 +297,17 @@ const Filter = (props) => {
     };
 
 
-    // useEffect((props) => {
-    //         props.updateMarker(markers);
-    //     console.log('MarkersUpdate:', markers)
-    // }, [markers]);
 
     //监听需要查询值的变化
     useEffect(() => {
-        console.log('needtoQuerybyClass', needtoQuerybyClass);
-    }, [needtoQuerybyClass]);
+        console.log('needtoQuerybyClass', needtoQuerybyClassRef.current);
+    }, [needtoQuerybyClassRef]);
     useEffect(() => {
-        console.log('needtoQuerybyLevel', needtoQuerybyLevel);
-    }, [needtoQuerybyLevel]);
+        console.log('needtoQuerybyLevel', needtoQuerybyLevelRef.current);
+    }, [needtoQuerybyLevelRef]);
     useEffect(() => {
-        console.log('needtoQueryAll', needtoQueryAll);
-    }, [needtoQueryAll]);
+        console.log('needtoQueryAll', needtoQueryAllRef.current);
+    }, [needtoQueryAllRef]);
 
 
     return (

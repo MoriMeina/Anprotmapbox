@@ -15,13 +15,12 @@ mapboxgl.accessToken = 'pk.eyJ1IjoibWVpbmE5NzU4IiwiYSI6ImNsZWZvZndjYjA1bmk0NW1yN
 const Map = (props) => {
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState('');
-    const [markers, setMarkers] = useState(props.markers);
+    const [markers, setMarkers] = useState([]);
 
 
     const content = <Filter updateMarker={updateMarker}/>;
 
     const text = <span>Title</span>;
-
 
 
     const onClose = () => {
@@ -36,6 +35,9 @@ const Map = (props) => {
         const fileUrl = URL.createObjectURL(file);
         setValue(fileUrl);
     };
+    useEffect(() => {
+        setMarkers(props.markers);
+    }, [props.markers]);
 
     useEffect(() => {
             const map = new mapboxgl.Map({
@@ -132,7 +134,7 @@ const Map = (props) => {
                 map.remove();
             };
         },
-        [markers,props.markers]);
+        [markers]);
     function updateMarker(newMarkers) {
         setMarkers(newMarkers);
         console.log("newMarkers", newMarkers)
