@@ -15,10 +15,10 @@ mapboxgl.accessToken = 'pk.eyJ1IjoibWVpbmE5NzU4IiwiYSI6ImNsZWZvZndjYjA1bmk0NW1yN
 const Map = (props) => {
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState('');
-    const [markers, setMarkers] = useState([]);
+    const [markers, setMarkers] = useState(props.markers);
 
 
-    const content = <Filter/>;
+    const content = <Filter updateMarker={updateMarker}/>;
 
     const text = <span>Title</span>;
 
@@ -38,7 +38,6 @@ const Map = (props) => {
     };
 
     useEffect(() => {
-            setMarkers(props.markers);
             const map = new mapboxgl.Map({
                 container: 'map',
                 projection: 'globe',
@@ -136,6 +135,7 @@ const Map = (props) => {
         [markers,props.markers]);
     function updateMarker(newMarkers) {
         setMarkers(newMarkers);
+        console.log("newMarkers", newMarkers)
     }
 
     return (
@@ -155,7 +155,7 @@ const Map = (props) => {
             </Drawer>
             <Popover placement="topLeft" title={text}  content={content}>
                 <Button style={{background:"#a8a8a8",border:"none",height:"50px",width:"50px",borderRadius:"50px",position:"absolute",top:"90%",left:"3%",zIndex:"1000"}}>
-                    <FiFilter updateMarker={updateMarker}/>
+                    <FiFilter/>
                 </Button>
             </Popover>
         </div>

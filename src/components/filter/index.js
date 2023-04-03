@@ -53,7 +53,7 @@ const treeData1 = [{
         },
     ],
 },];
-const Filter = () => {
+const Filter = (props) => {
     //----------------------------------------Class------------------------------------------------------------//
     const [needtoQuerybyClass, setNeedtoQuerybyClass] = useState([]);
     //设置需要查询的类
@@ -65,7 +65,6 @@ const Filter = () => {
     const [checkedKeys, setCheckedKeys] = useState(['']);
     const [selectedKeys, setSelectedKeys] = useState([]);
     const [autoExpandParent, setAutoExpandParent] = useState(true);
-    const [markers, setMarkers] = useState([]);
     //根据类的显示事件
     const onExpand = (expandedKeysValue) => {
         console.log('onExpand', expandedKeysValue);
@@ -194,7 +193,7 @@ const Filter = () => {
 
 
     //----------------------查询并标记------------------------------//
-    const queryByClass = async () => {
+    const queryByClass = async (props) => {
         try {
             if (needtoQuerybyClass.length === "class") {
                 try {
@@ -202,7 +201,7 @@ const Filter = () => {
                     if (response && response.data && response.data.features) {
                         console.log(response.data.features)
                         //设置markers
-                        setMarkers(response.data.features)
+                        props.updateMarker(response.data.features)
                     }
                 } catch (error) {
                     console.error(error);
@@ -213,7 +212,7 @@ const Filter = () => {
             })
             if (response && response.data && response.data.features) {
                 console.log('根据类请求到', response.data.features)
-                setMarkers(response.data.features)
+                props.updateMarker(response.data.features)
             }
         } catch (error) {
             console.error(error);
@@ -227,7 +226,7 @@ const Filter = () => {
                     if (response && response.data && response.data.features) {
                         console.log(response.data.features)
                         //设置markers
-                        setMarkers(response.data.features)
+                        props.updateMarker(response.data.features)
                     }
                 } catch (error) {
                     console.error(error);
@@ -238,7 +237,7 @@ const Filter = () => {
             })
             if (response && response.data && response.data.features) {
                 console.log('根据濒危等级请求到', response.data.features)
-                setMarkers(response.data.features)
+                props.updateMarker(response.data.features)
             }
         } catch (error) {
             console.error(error);
@@ -250,7 +249,7 @@ const Filter = () => {
             if (response && response.data && response.data.features) {
                 console.log('全部请求', response.data.features)
                 //设置markers值
-                setMarkers(response.data.features)
+                props.updateMarker(response.data.features)
             }
         } catch (error) {
             console.error(error);
