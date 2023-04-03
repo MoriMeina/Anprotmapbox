@@ -214,7 +214,7 @@ const Filter = (props) => {
     //----------------------查询并标记------------------------------//
     const queryByClass = async () => {
         try {
-            if (needtoQuerybyClassRef.current === "class") {
+            if (needtoQuerybyClassRef.current.toString() === "class") {
                 try {
                     const response = await axios.get('http://localhost:5000/api/location');
                     if (response && response.data && response.data.features) {
@@ -225,7 +225,7 @@ const Filter = (props) => {
                 } catch (error) {
                     console.error(error);
                 }
-            }
+            }else{
             const response = await axios.post('http://localhost:5000/api/byclass', {
                 class: needtoQuerybyClassRef.current,
             })
@@ -233,13 +233,13 @@ const Filter = (props) => {
                 console.log('根据类请求到', response.data.features)
                 props.updateMarker(response.data.features)
             }
-        } catch (error) {
+        } }catch (error) {
             console.error(error);
         }
     };
     const queryByLevel = async () => {
         try {
-            if (needtoQuerybyLevelRef.current === "level") {
+            if (needtoQuerybyLevelRef.current.toString() === "level") {
                 try {
                     const response = await axios.get('http://localhost:5000/api/location');
                     if (response && response.data && response.data.features) {
@@ -250,7 +250,7 @@ const Filter = (props) => {
                 } catch (error) {
                     console.error(error);
                 }
-            }
+            }else{
             const response = await axios.post('http://localhost:5000/api/bylevel', {
                 level: needtoQuerybyLevelRef.current,
             })
@@ -258,7 +258,7 @@ const Filter = (props) => {
                 console.log('根据濒危等级请求到', response.data.features)
                 props.updateMarker(response.data.features)
             }
-        } catch (error) {
+        } }catch (error) {
             console.error(error);
         }
     };
