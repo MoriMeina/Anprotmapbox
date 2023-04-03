@@ -134,7 +134,7 @@ const Map = (props) => {
             };
         },
         [markers,props.markers]);
-    function updateMarkers(newMarkers) {
+    function updateMarker(newMarkers) {
         setMarkers(newMarkers);
     }
 
@@ -155,7 +155,7 @@ const Map = (props) => {
             </Drawer>
             <Popover placement="topLeft" title={text}  content={content}>
                 <Button style={{background:"#a8a8a8",border:"none",height:"50px",width:"50px",borderRadius:"50px",position:"absolute",top:"90%",left:"3%",zIndex:"1000"}}>
-                    <FiFilter updateMarkers={updateMarkers}/>
+                    <FiFilter updateMarker={updateMarker}/>
                 </Button>
             </Popover>
         </div>

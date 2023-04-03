@@ -65,6 +65,7 @@ const Filter = () => {
     const [checkedKeys, setCheckedKeys] = useState(['']);
     const [selectedKeys, setSelectedKeys] = useState([]);
     const [autoExpandParent, setAutoExpandParent] = useState(true);
+    const [markers, setMarkers] = useState([]);
     //根据类的显示事件
     const onExpand = (expandedKeysValue) => {
         console.log('onExpand', expandedKeysValue);
@@ -175,7 +176,7 @@ const Filter = () => {
     };
 
 
-    //----------------------------------------查询--------------------------------------------------------------//
+    //-----------------------查询-----------------------------//
     useEffect(() => {
         //根据类查询
         if (needtoQuerybyClass.length !== 0) {
@@ -193,15 +194,15 @@ const Filter = () => {
 
 
     //----------------------查询并标记------------------------------//
-    const queryByClass = async (props) => {
+    const queryByClass = async () => {
         try {
-            if(needtoQuerybyClass.length === "class"){
+            if (needtoQuerybyClass.length === "class") {
                 try {
                     const response = await axios.get('http://localhost:5000/api/location');
                     if (response && response.data && response.data.features) {
                         console.log(response.data.features)
-                        //回调markers到父组件
-                        props.updateMarkers(response.data.features);
+                        //设置markers
+                        setMarkers(response.data.features)
                     }
                 } catch (error) {
                     console.error(error);
@@ -212,23 +213,21 @@ const Filter = () => {
             })
             if (response && response.data && response.data.features) {
                 console.log('根据类请求到', response.data.features)
-                props.updateMarkers(response.data.features);
+                setMarkers(response.data.features)
             }
         } catch (error) {
             console.error(error);
         }
     };
-    const queryByLevel = async (props) => {
+    const queryByLevel = async () => {
         try {
             if (needtoQuerybyLevel.length === "level") {
                 try {
                     const response = await axios.get('http://localhost:5000/api/location');
                     if (response && response.data && response.data.features) {
                         console.log(response.data.features)
-                        //回调markers到父组件
-                        return () =>{
-                            props.updateMarkers(response.data.features)
-                        }
+                        //设置markers
+                        setMarkers(response.data.features)
                     }
                 } catch (error) {
                     console.error(error);
@@ -239,21 +238,19 @@ const Filter = () => {
             })
             if (response && response.data && response.data.features) {
                 console.log('根据濒危等级请求到', response.data.features)
-                return () =>{
-                    props.updateMarkers(response.data.features)
-                }
+                setMarkers(response.data.features)
             }
         } catch (error) {
             console.error(error);
         }
     };
-    const queryAll = async (props) => {
+    const queryAll = async () => {
         try {
             const response = await axios.get('http://localhost:5000/api/location');
             if (response && response.data && response.data.features) {
                 console.log('全部请求', response.data.features)
-                //回调markers到父组件
-                props.updateMarkers(response.data.features);
+                //设置markers值
+                setMarkers(response.data.features)
             }
         } catch (error) {
             console.error(error);
@@ -280,6 +277,12 @@ const Filter = () => {
             });
         }
     };
+
+
+    // useEffect((props) => {
+    //         props.updateMarker(markers);
+    //     console.log('MarkersUpdate:', markers)
+    // }, [markers]);
 
     //监听需要查询值的变化
     useEffect(() => {
