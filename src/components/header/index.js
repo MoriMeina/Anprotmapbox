@@ -12,15 +12,10 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 
 const SearchBox = () => {
     const [type, setType] = useState("all");
-    const [selectedAnimal, setSelectedAnimal] = useState(null);
     const [options, setOptions] = useState([]);
     const [value, setValue] = useState([]);
     const [open, setOpen] = useState(false);
-    // const [pdfUrl, setPdfUrl] = useState(null);
     // const [numPages, setNumPages] = useState(null);
-
-
-
 
 
     //左侧弹出抽屉显示PDF文件内容
@@ -34,15 +29,10 @@ const SearchBox = () => {
         const response = await axios.get(`http://localhost:5000/pdf/${value}`, {responseType: 'blob'});
         const file = new Blob([response.data], {type: 'application/pdf'});
         const fileUrl = URL.createObjectURL(file);
+        console.log('fileUrl:', fileUrl)
         setValue(fileUrl);
     };
 
-
-    // const onOpen = () => {
-    //     console.log('download_file:',value)
-    //     setValue(value)
-    //     setOpen(true);
-    // };
 
     //搜索框下弹出列表
     const onSearch = (value) => {
@@ -109,19 +99,11 @@ const SearchBox = () => {
             />
         </span>
                 <div className="searchbox">
-                    <Select style={{position:"absolute",top:"7"}} className='select' showSearch options={options} filterOption={false} onSelect={onOpen}
+                    <Select style={{position: "absolute", top: "7"}} className='select' showSearch options={options}
+                            filterOption={false} onSelect={onOpen}
                             onSearch={onSearch}></Select>
                 </div>
             </div>
-
-            {selectedAnimal && (
-                <div className="profile-overlay">
-                    <button className="close-btn" onClick={() => setSelectedAnimal(null)}>
-                        关闭
-                    </button>
-                    <img className="profile-image" src={selectedAnimal} alt="Animal Profile"/>
-                </div>
-            )}
             <Drawer
                 title="详细信息"
                 placement="left"
@@ -138,12 +120,18 @@ const SearchBox = () => {
     );
 };
 
+//新增右侧登录按钮
+const Login = () => {
+
+};
+
 
 // 主结构
 const Header = () => {
     return (<div className="header">
         <img src={LOGO} className="header_logo" alt="Logo"/>
         <SearchBox/>
+        <Login />
     </div>);
 };
 

@@ -1,15 +1,19 @@
 import Home from './pages/home'
-import {Route, Routes, Navigate, BrowserRouter} from 'react-router-dom'
+import Login from './pages/login'
+import Register from './pages/register'
+import {Route, Routes, Navigate, HashRouter} from 'react-router-dom'
 
 function App() {
-  return (
-      <BrowserRouter>
-        <Routes>
-          <Route path={"/"} element={<Navigate to="/home"/>}/>
-          <Route path={"/home"} element={<Home/>}/>
-        </Routes>
-      </BrowserRouter>
-  )
+    return (
+        <HashRouter>
+            <Routes>
+                <Route path={"/"} element={<Navigate to="/login"/>}/>
+                <Route path={"/login"} element={<Login/>}/>
+                <Route path={"/home"} element={<Home/>}/>
+                <Route path={"register"} element={<Register/>}/>
+            </Routes>
+        </HashRouter>
+    )
 }
 
 export default App

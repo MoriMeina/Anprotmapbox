@@ -1,0 +1,40 @@
+.login {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, .1);
+    padding: 40px;
+    width: 600px;
+    margin: 0 auto;
+    margin-top: 250px;
+}
+
+.Regist-button {
+    border-radius: 8px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, .1);
+    width: 194px;
+    margin: 20px;
+}
+
+.Login-button {
+    border-radius: 8px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, .1);
+    width: 194px;
+    margin: 20px;
+}
+.Title{
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+
+.Button-area {
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+.ChangePass{
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 10px;
+    font-size: 12px;
+}

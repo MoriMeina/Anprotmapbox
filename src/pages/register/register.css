@@ -1,0 +1,27 @@
+.register{
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, .1);
+    padding: 40px;
+    width: 600px;
+    margin: 50px auto 0;
+}
+.Title{
+    text-align: center;
+    margin: 10px auto 0;
+}
+.Button-area {
+    text-align: center;
+    margin: 10px auto 0;
+}
+.BackLogin{
+    text-align: center;
+    margin: 10px auto 0;
+    font-size: 12px;
+}
+.Regist-button{
+    border-radius: 8px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, .1);
+    width: 100%;
+    margin: 20px auto 0;
+}
