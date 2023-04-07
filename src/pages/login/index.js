@@ -1,10 +1,10 @@
 import React, {useState} from "react";
-import "./login.css";
 import {Button, Input} from "antd";
 import {LockOutlined, PauseOutlined, UserOutlined} from '@ant-design/icons';
 import {Link} from "react-router-dom";
 import md5 from 'js-md5';
 import axios from "axios";
+import "./login.css";
 
 
 const Login = () => {
@@ -50,7 +50,7 @@ const Login = () => {
                 <br/>
                 <div className="Button-area">
                     <Link to={"/register"}>
-                        <Button type="default" size={size} className="Regist-button">注册</Button>
+                        <Button type="default" size={size} className="regist-button">注册</Button>
                     </Link>
                     <Button type="primary" size={size} className="Login-button"
                             onClick={onClickloginButton}>登录</Button>

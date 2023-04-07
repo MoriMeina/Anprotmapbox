@@ -5,10 +5,10 @@
     padding: 40px;
     width: 600px;
     margin: 0 auto;
-    margin-top: 250px;
+    margin-top: 150px;
 }
 
-.Regist-button {
+.regist-button {
     border-radius: 8px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, .1);
     width: 194px;
