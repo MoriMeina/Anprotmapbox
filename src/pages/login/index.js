@@ -46,7 +46,7 @@ const Login = () => {
                 <Input size="large" placeholder="请输入用户名" prefix={<UserOutlined/>} onChange={onUsernameChange}/>
                 <label>密码</label>
                 <Input.Password size="large" placeholder="请输入密码" prefix={<LockOutlined/>}
-                                onChange={onPasswordChange}/>
+                                onChange={onPasswordChange} onPressEnter={onClickloginButton}/>
                 <br/>
                 <div className="Button-area">
                     <Link to={"/register"}>

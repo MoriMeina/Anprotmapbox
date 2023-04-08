@@ -324,3 +324,9 @@
     position: absolute;
     top: 7px;
 }
+.upload-button{
+    position: absolute;
+    display: flex;
+    top: 7px;
+    right: 7px;
+}

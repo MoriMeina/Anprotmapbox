@@ -2,10 +2,12 @@ import React, {useState} from 'react';
 import './header.css';
 import LOGO from './logo.png';
 import axios from 'axios';
-import {Drawer, Select} from 'antd';
+import {Button, Drawer, Select} from 'antd';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import {pdfjs} from 'react-pdf';
 import PDFShower from '../PDFShower';
+import {Link} from "react-router-dom";
+import {SearchOutlined} from "@ant-design/icons";
 // noinspection JSUnresolvedVariable
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -121,8 +123,22 @@ const SearchBox = () => {
 };
 
 //新增右侧登录按钮
-const Login = () => {
-
+const UploadButton = () => {
+    return (
+        <div className="upload-button">
+            <Link to={'/upload'}
+                  style={{
+                      color: 'white',
+                      textDecoration: 'none',
+                      fontSize: '20px',
+                      position: 'absolute',
+                      right: '20px',
+                      top: '20px',
+                  }}>
+                <Button type="primary" shape="circle" icon={<SearchOutlined />} />
+            </Link>
+        </div>
+    )
 };
 
 
@@ -131,7 +147,7 @@ const Header = () => {
     return (<div className="header">
         <img src={LOGO} className="header_logo" alt="Logo"/>
         <SearchBox/>
-        <Login />
+        <UploadButton/>
     </div>);
 };
 

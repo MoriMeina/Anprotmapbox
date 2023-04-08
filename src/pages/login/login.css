@@ -4,8 +4,7 @@
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, .1);
     padding: 40px;
     width: 600px;
-    margin: 0 auto;
-    margin-top: 150px;
+    margin: 150px auto 0;
 }
 
 .regist-button {
@@ -23,18 +22,15 @@
 }
 .Title{
     text-align: center;
-    margin: 0 auto;
-    margin-top: 10px;
+    margin: 10px auto 0;
 }
 
 .Button-area {
     text-align: center;
-    margin: 0 auto;
-    margin-top: 10px;
+    margin: 10px auto 0;
 }
 .ChangePass{
     text-align: center;
-    margin: 0 auto;
-    margin-top: 10px;
+    margin: 10px auto 0;
     font-size: 12px;
 }
