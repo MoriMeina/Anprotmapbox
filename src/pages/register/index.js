@@ -37,7 +37,7 @@ const Register = () => {
     }
 
     function onClickRegButton() {
-        if (password !== passwordMatch) {
+            if (password !== passwordMatch) {
             alert("两次密码不一致");
         } else {
             console.log('账号:', username, '密码(加密后):', password);

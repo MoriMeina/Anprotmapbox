@@ -1,0 +1,45 @@
+.upload_form {
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, .1);
+    padding-top: 40px;
+    width: 60%;
+    height: 600px;
+    margin: 100px auto 0;
+}
+
+.upload_form_header {
+    margin: 0 auto;
+    font-size: 18px;
+    text-align: center;
+    font-family: "Microsoft YaHei";
+    width: 100%;
+    height: 10%;
+}
+
+.left_upload {
+    background-color: #fff;
+    border-radius: 8px;
+    border: 1px solid #cacaca;
+    /*box-shadow: 0 0 10px 0 rgba(0, 0, 0, .1);*/
+    padding: 40px;
+    width: 50%;
+    height: 90%;
+    float: left;
+
+}
+
+.right-fillup {
+    float: right;
+
+    width: 50%;
+    height: 90%;
+    background-color: #cacaca;
+    border-radius: 8px;
+}
+
+.upload_render {
+    margin: 20px auto 0;
+    width: 100%;
+    height: 95%;
+}
