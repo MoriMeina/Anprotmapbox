@@ -28,6 +28,7 @@ const Login = () => {
             }).then(res => {
                 if(res.data.status === "success")
                 {
+
                     window.location.replace("#/home");
                 } else {
                     alert("登录失败");

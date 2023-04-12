@@ -19,11 +19,6 @@
     padding: 0.5%;
 }
 
-/*.header_left{*/
-/*    height: 100%;*/
-/*    width:50%;*/
-/*    margin: 1% 1% 97% 1%;*/
-/*}*/
 .header_logo {
     display: flex;
     height: 100%;
@@ -31,109 +26,10 @@
     border-radius: 10px;
 }
 
-/*.header_right{*/
-/*    margin-right: 1%;*/
-/*    width: 40%;*/
-/*    height:100%;*/
-/*}*/
-/*.header_right_search {*/
-/*    !*position: relative;*!*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*    height: 100%;*/
-/*    margin-left: auto;*/
-/*    width:40%;*/
-/*}*/
-
-/*.input {*/
-/*    align-items: center;*/
-/*    height: 100%;*/
-/*    width: 70%;*/
-/*    border: none;*/
-/*    border-radius: 15px;*/
-/*    padding: 0.5% 1%;*/
-/*    background-color: #f2f2f2;*/
-/*    color: #333;*/
-/*    outline: none;*/
-/*    transition: all 0.3s;*/
-/*}*/
-/*.search_filter_button{*/
-/*    !*按照类型搜索的按钮，点击弹出一个form*!*/
-/*    border:none;*/
-/*    background: none;*/
-/*    width:44.5%;*/
-/*    padding:0;*/
-/*}*/
-/*.Type_select{*/
-/*    !*这里写点击按钮的弹出框内容css*!*/
-/*}*/
-/*.header_right_search input[type="text"] {*/
-/*    width: 44.5%;*/
-/*    border: none;*/
-/*    padding: 0;*/
-/*    font-size: 18px;*/
-/*    background: none;*/
-/*    outline: none;*/
-/*    transition: all 0.3s;*/
-/*}*/
-/*.header_right_search ul {*/
-/*    position: absolute;*/
-/*    top: 60px;*/
-/*    left: 0;*/
-/*    width: 100%;*/
-/*    padding: 0;*/
-/*    margin: 0;*/
-/*    list-style: none;*/
-/*    background-color: #fff;*/
-/*    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);*/
-/*    z-index: 1;*/
-/*}*/
-
-/*.header_right_search ul li {*/
-/*    padding: 10px 20px;*/
-/*    font-size: 18px;*/
-/*    border-bottom: 1px solid #ddd;*/
-/*    cursor: pointer;*/
-/*}*/
-
-/*.header_right_search ul li:hover {*/
-/*    background-color: #f2f2f2;*/
-/*}*/
-/*.filter-button{*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*    margin-left: auto;*/
-/*}*/
-/*.search_filter {*/
-/*    margin-right: 10px;*/
-/*}*/
-
-/*.search_filter select {*/
-/*    height: 32px;*/
-/*    padding: 0 10px;*/
-/*    font-size: 14px;*/
-/*    border: 1px solid #ccc;*/
-/*    border-radius: 3px;*/
-/*}*/
-
-/*.search_filter_button {*/
-/*    height: 32px;*/
-/*    padding: 0 10px;*/
-/*    font-size: 14px;*/
-/*    border: 1px solid #ccc;*/
-/*    border-radius: 3px;*/
-/*    background-color: #f9f9f9;*/
-/*    color: #666;*/
-/*}*/
-/*.header_right_search {*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*}*/
-
 .header_right_search {
     display: flex;
     align-items: center;
-    margin-right: 10px; /* Add some margin to the right */
+    margin-right: 0; /* Add some margin to the right */
 }
 
 .input {
@@ -329,4 +225,6 @@
     display: flex;
     top: 7px;
     right: 7px;
+
+
 }

@@ -7,9 +7,10 @@ import {Button, Drawer, Popover} from "antd";
 import axios from "axios";
 import {FiFilter} from "react-icons/fi";
 import Filter from "../filter";
+import Userpop from "../userpop"
+import {UserOutlined} from "@ant-design/icons";
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibWVpbmE5NzU4IiwiYSI6ImNsZWZvZndjYjA1bmk0NW1yNTNoemV0MDcifQ.-BIoKfejC5g2bCEVCZMtOg';
-
 
 
 const Map = (props) => {
@@ -19,8 +20,10 @@ const Map = (props) => {
 
 
     const content = <Filter updateMarker={updateMarker}/>;
+    const content1 = <Userpop/>
 
-    const text = <span>Title</span>;
+    const text = <span>过滤列表</span>;
+    const text1 = <span>用户信息</span>
 
 
     const onClose = () => {
@@ -28,10 +31,10 @@ const Map = (props) => {
     };
 
     const onOpen = async (value) => {
-        console.log('download_file:',value)
+        console.log('download_file:', value)
         setOpen(true);
-        const response = await axios.get(`http://localhost:5000/pdf/${value}`, { responseType: 'blob' });
-        const file = new Blob([response.data], { type: 'application/pdf' });
+        const response = await axios.get(`http://localhost:5000/pdf/${value}`, {responseType: 'blob'});
+        const file = new Blob([response.data], {type: 'application/pdf'});
         const fileUrl = URL.createObjectURL(file);
         setValue(fileUrl);
     };
@@ -135,6 +138,7 @@ const Map = (props) => {
             };
         },
         [markers]);
+
     function updateMarker(newMarkers) {
         setMarkers(newMarkers);
         console.log("newMarkers", newMarkers)
@@ -155,9 +159,34 @@ const Map = (props) => {
                     <PDFShower pdfUrl={value}/>
                 </div>
             </Drawer>
-            <Popover placement="topLeft" title={text}  content={content}>
-                <Button style={{background:"#a8a8a8",border:"none",height:"50px",width:"50px",borderRadius:"50px",position:"absolute",top:"90%",left:"3%",zIndex:"1000"}}>
+            <Popover placement="topLeft" title={text} content={content}>
+                <Button style={{
+                    background: "#a8a8a8",
+                    border: "none",
+                    height: "50px",
+                    width: "50px",
+                    borderRadius: "50px",
+                    position: "absolute",
+                    top: "90%",
+                    left: "3%",
+                    zIndex: "1000"
+                }}>
                     <FiFilter/>
+                </Button>
+            </Popover>
+            <Popover placement="topLeft" title={text1} content={content1}>
+                <Button style={{
+                    background: "#a8a8a8",
+                    border: "none",
+                    height: "50px",
+                    width: "50px",
+                    borderRadius: "50px",
+                    position: "absolute",
+                    top: "83%",
+                    left: "3%",
+                    zIndex: "1000"
+                }}>
+                    <UserOutlined/>
                 </Button>
             </Popover>
         </div>

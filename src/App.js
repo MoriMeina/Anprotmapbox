@@ -5,6 +5,7 @@ import Upload from './pages/upload'
 import ChangePassword from './pages/changePassword'
 import ForgotPassword from './pages/forgotPassword'
 import Admin from './pages/admin'
+import Personal from './pages/personal'
 import {Route, Routes, Navigate, HashRouter} from 'react-router-dom'
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
                 <Route path={"/changePassword"} element={<ChangePassword/>}/>
                 <Route path={"/forgotPassword"} element={<ForgotPassword/>}/>
                 <Route path={"/admin"} element={<Admin/>}/>
+                <Route path={"/personal"} element={<Personal/>}/>
             </Routes>
         </HashRouter>
     )
