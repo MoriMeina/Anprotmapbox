@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 import md5 from 'js-md5';
 import axios from "axios";
 import "./login.css";
+import cookie from 'react-cookies'
 
 
 const Login = () => {
@@ -24,11 +25,11 @@ const Login = () => {
         axios
             .post('http://localhost:5000/api/login', {
                 username: username,
-                password: password
+                password: password,
             }).then(res => {
                 if(res.data.status === "success")
                 {
-
+                    cookie.save('token', res.data.token, { path: '/' });
                     window.location.replace("#/home");
                 } else {
                     alert("登录失败");
