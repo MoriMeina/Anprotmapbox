@@ -7,8 +7,7 @@ import {Button, Drawer, Popover} from "antd";
 import axios from "axios";
 import {FiFilter} from "react-icons/fi";
 import Filter from "../filter";
-import Userpop from "../userpop"
-import {UserOutlined} from "@ant-design/icons";
+import UserPop from "../userpop";
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibWVpbmE5NzU4IiwiYSI6ImNsZWZvZndjYjA1bmk0NW1yNTNoemV0MDcifQ.-BIoKfejC5g2bCEVCZMtOg';
 
@@ -20,10 +19,8 @@ const Map = (props) => {
 
 
     const content = <Filter updateMarker={updateMarker}/>;
-    const content1 = <Userpop/>
 
     const text = <span>过滤列表</span>;
-    const text1 = <span>用户信息</span>
 
 
     const onClose = () => {
@@ -144,6 +141,7 @@ const Map = (props) => {
         console.log("newMarkers", newMarkers)
     }
 
+
     return (
         <div id="map" style={{width: '100%', height: '100%'}}>
             <Header/>
@@ -159,7 +157,11 @@ const Map = (props) => {
                     <PDFShower pdfUrl={value}/>
                 </div>
             </Drawer>
-            <Popover placement="topLeft" title={text} content={content}>
+            <Popover
+                placement="topLeft"
+                title={text}
+                content={content}
+            >
                 <Button style={{
                     background: "#a8a8a8",
                     border: "none",
@@ -174,21 +176,23 @@ const Map = (props) => {
                     <FiFilter/>
                 </Button>
             </Popover>
-            <Popover placement="topLeft" title={text1} content={content1}>
-                <Button style={{
-                    background: "#a8a8a8",
-                    border: "none",
-                    height: "50px",
-                    width: "50px",
-                    borderRadius: "50px",
-                    position: "absolute",
-                    top: "83%",
-                    left: "3%",
-                    zIndex: "1000"
-                }}>
-                    <UserOutlined/>
-                </Button>
-            </Popover>
+            <UserPop/>
+            {/*<Button*/}
+            {/*    style={{*/}
+            {/*        background: "#a8a8a8",*/}
+            {/*        border: "none",*/}
+            {/*        height: "50px",*/}
+            {/*        width: "50px",*/}
+            {/*        borderRadius: "50px",*/}
+            {/*        position: "absolute",*/}
+            {/*        top: "83%",*/}
+            {/*        left: "3%",*/}
+            {/*        zIndex: "1000"*/}
+            {/*    }}*/}
+            {/*    onClick={Tologin}*/}
+            {/*>*/}
+            {/*    <UserOutlined/>*/}
+            {/*</Button>*/}
         </div>
     )
 };

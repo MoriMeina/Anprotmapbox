@@ -30,7 +30,7 @@ const Login = () => {
                 if(res.data.status === "success")
                 {
                     cookie.save('token', res.data.token, { path: '/' });
-                    window.location.replace("#/home");
+                    window.location.replace("#/personal");
                 } else {
                     alert("登录失败");
                 }

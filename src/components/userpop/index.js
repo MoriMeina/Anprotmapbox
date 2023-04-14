@@ -1,47 +1,37 @@
-import {Tree} from "antd";
-import {DownOutlined, UserOutlined, UserSwitchOutlined,} from '@ant-design/icons';
+import React, {useState} from "react";
+import {UserOutlined} from "@ant-design/icons";
+import {Button, Modal} from "antd";
+import Login from "../../pages/login";
 
-const treeData = [
-    {
-        title: '个人信息',
-        key: 'person-manage',
-        icon: <UserOutlined />,
-    },
-];
-const treeData1 = [
-    {
-        title: '用户管理',
-        key: 'manager',
-        icon: <UserSwitchOutlined />,
-    }
-]
 const Userpop = () => {
-    const onSelect = () => {
-        window.location.replace('#/personal')
-    };
-    const  onSelect1 = () =>{
-        window.location.replace('#/admin')
-    }
-
+    const [open, setOpen] = useState(false);
     return (
-        <div>
-            <Tree
-                showIcon
-                defaultExpandAll
-                switcherIcon={<DownOutlined/>}
-                onSelect={onSelect}
-                treeData={treeData}
-            />
-            <Tree
-                showIcon
-                defaultExpandAll
-                switcherIcon={<DownOutlined/>}
-                treeData={treeData1}
-                onSelect={onSelect1}
-            />
-        </div>
+        <>
+            <Button type="primary" onClick={() => setOpen(true)}
+                    style={{
+                        background: "#a8a8a8",
+                        border: "none",
+                        height: "50px",
+                        width: "50px",
+                        borderRadius: "50px",
+                        position: "absolute",
+                        top: "83%",
+                        left: "3%",
+                        zIndex: "1000"
+                    }}>
+                <UserOutlined/>
+            </Button>
+            <Modal
+                title="Modal 1000px width"
+                centered
+                open={open}
+                onOk={() => setOpen(false)}
+                onCancel={() => setOpen(false)}
+                width={1000}
+            >
+                <Login/>
+            </Modal>
+        </>
     );
-};
-
-
+}
 export default Userpop;
