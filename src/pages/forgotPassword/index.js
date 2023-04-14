@@ -26,7 +26,7 @@ const Fotgotpassword = () => {
         } else {
             console.log('记录到信息:', username, mail, newPassword)
             axios
-                .post("http://localhost:5000/api/forgotpass", {
+                .post("/api/forgotpass", {
                         username: username,
                         mail: mail,
                         newPassword: newPassword

@@ -43,7 +43,7 @@ const UploadPage = () => {
         console.log(filename);
         console.log(order)
         axios
-            .post('http://localhost:5000/api/uploadfile', {
+            .post('/api/uploadfile', {
                 Class: Classname,
                 Order: order,
                 Animal: Animalname,
@@ -58,7 +58,7 @@ const UploadPage = () => {
     const props = {
         name: 'file',
         multiple: false,
-        action: 'http://localhost:5000/api/upload',
+        action: '/api/upload',
         onChange(info) {
             const {status} = info.file;
             if (status !== 'uploading') {

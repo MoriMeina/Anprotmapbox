@@ -23,7 +23,7 @@ const Login = () => {
     function onClickloginButton() {
         console.log('账号:', username, '密码(加密后):', password);
         axios
-            .post('http://localhost:5000/api/login', {
+            .post('/api/login', {
                 username: username,
                 password: password,
             }).then(res => {

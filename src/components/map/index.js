@@ -33,7 +33,7 @@ const Map = (props) => {
     const onOpen = async (value) => {
         console.log('download_file:', value)
         setOpen(true);
-        const response = await axios.get(`http://localhost:5000/pdf/${value}`, {responseType: 'blob'});
+        const response = await axios.get(`/pdf/${value}`, {responseType: 'blob'});
         const file = new Blob([response.data], {type: 'application/pdf'});
         const fileUrl = URL.createObjectURL(file);
         setValue(fileUrl);
@@ -91,7 +91,7 @@ const Map = (props) => {
 
                     // // Add click event to markers
                     map.on('click', 'markers', (e) => {
-                        axios.get(`http://localhost:5000/api/pdfname?name=${e.features[0].properties.name}`
+                        axios.get(`/api/pdfname?name=${e.features[0].properties.name}`
                         ).then(res => {
                             console.log(res.data);
                             const pdfname = res.data

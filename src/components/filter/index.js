@@ -209,14 +209,14 @@ const Filter = (props) => {
         if (needtoQueryAllRef.current.length !== 0) {
             console.log('需要查询所有', needtoQueryAllRef.current);
         }
-    }, [needtoQuerybyClassRef.current, needtoQuerybyLevelRef.current, needtoQueryAllRef.current]);
+    }, []);
 
     //----------------------查询并标记------------------------------//
     const queryByClass = async () => {
         try {
             if (needtoQuerybyClassRef.current.toString() === "class") {
                 try {
-                    const response = await axios.get('http://localhost:5000/api/location');
+                    const response = await axios.get('/api/location');
                     if (response && response.data && response.data.features) {
                         console.log('请求全部类',response.data.features)
                         //设置markers
@@ -226,7 +226,7 @@ const Filter = (props) => {
                     console.error(error);
                 }
             }else{
-            const response = await axios.post('http://localhost:5000/api/byclass', {
+            const response = await axios.post('/api/byclass', {
                 class: needtoQuerybyClassRef.current,
             })
             if (response && response.data && response.data.features) {
@@ -241,7 +241,7 @@ const Filter = (props) => {
         try {
             if (needtoQuerybyLevelRef.current.toString() === "level") {
                 try {
-                    const response = await axios.get('http://localhost:5000/api/location');
+                    const response = await axios.get('/api/location');
                     if (response && response.data && response.data.features) {
                         console.log('请求全部濒危等级',response.data.features)
                         //设置markers
@@ -251,7 +251,7 @@ const Filter = (props) => {
                     console.error(error);
                 }
             }else{
-            const response = await axios.post('http://localhost:5000/api/bylevel', {
+            const response = await axios.post('/api/bylevel', {
                 level: needtoQuerybyLevelRef.current,
             })
             if (response && response.data && response.data.features) {
@@ -264,7 +264,7 @@ const Filter = (props) => {
     };
     const queryAll = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/location');
+            const response = await axios.get('/api/location');
             if (response && response.data && response.data.features) {
                 console.log('全部请求', response.data.features)
                 //设置markers值

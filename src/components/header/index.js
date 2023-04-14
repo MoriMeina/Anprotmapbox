@@ -26,7 +26,7 @@ const SearchBox = () => {
     const onOpen = async (value) => {
         console.log('download_file:', value)
         setOpen(true);
-        const response = await axios.get(`http://localhost:5000/pdf/${value}`, {responseType: 'blob'});
+        const response = await axios.get(`/pdf/${value}`, {responseType: 'blob'});
         const file = new Blob([response.data], {type: 'application/pdf'});
         const fileUrl = URL.createObjectURL(file);
         console.log('fileUrl:', fileUrl)
@@ -38,7 +38,7 @@ const SearchBox = () => {
     const onSearch = (value) => {
         if (value) {
             axios
-                .get(`http://localhost:5000/search?name=${value}&type=${type}`)
+                .get(`/search?name=${value}&type=${type}`)
                 .then((res) => {
                     console.log('res', res.data.data)
                     if (res.data.data.label.length > 0) {

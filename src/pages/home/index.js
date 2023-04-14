@@ -9,7 +9,7 @@ const Home = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/location');
+                const response = await axios.get('/api/location');
                 if (response && response.data && response.data.features) {
                     setMarkers(response.data.features)
                     console.log(response.data.features)

@@ -33,7 +33,7 @@ const Personal = () => {
         const onClickloginButton = () => {
             const token = cookie.load('token')
             axios
-                .post('http://localhost:5000/api/updatepersonal', {
+                .post('/api/updatepersonal', {
                     'token': token,
                     'nickname': Newnick,
                     'phone': Newphone,
@@ -64,7 +64,7 @@ const Personal = () => {
             console.log('token:',token)
             if (token.trim() !== '') {
                 // 在组件渲染后发送网络请求
-                axios.post('http://localhost:5000/api/personal', {
+                axios.post('/api/personal', {
                     'token': token
                 }) // 替换成实际的后端接口地址
 

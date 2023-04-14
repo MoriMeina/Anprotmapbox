@@ -27,7 +27,7 @@ const ChangePassword = () => {
         } else {
             console.log('记录到信息:', username, oldPassword, newPassword)
             axios
-                .post("http://localhost:5000/api/changepass", {
+                .post("/api/changepass", {
                         username: username,
                         oldPassword: oldPassword,
                         newPassword: newPassword

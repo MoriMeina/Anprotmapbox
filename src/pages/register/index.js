@@ -42,7 +42,7 @@ const Register = () => {
         } else {
             console.log('账号:', username, '密码(加密后):', password);
             axios
-                .post('http://localhost:5000/api/register', {
+                .post('/api/register', {
                     nickname:nickname,
                     email: mailAddress,
                     username: username,
