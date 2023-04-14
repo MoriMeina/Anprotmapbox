@@ -1,10 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import './personal.css';
 import {Button, Input, Menu} from "antd";
 import {MailOutlined, PhoneOutlined, UploadOutlined, UserOutlined} from "@ant-design/icons";
 import {Content} from "antd/es/layout/layout";
 import axios from "axios";
 import cookie from "react-cookies";
+import Upload from "../upload"
 
 const Personal = () => {
     function getItem(label, key, icon, children, type) {
@@ -113,11 +114,6 @@ const Personal = () => {
 
         )
     }
-    const NewUpdate = () => {
-        return (
-            <div>新物种上传</div>
-        )
-    }
     return (
         <div className="personal">
             <>
@@ -135,7 +131,7 @@ const Personal = () => {
                 />
                 <Content style={{padding: '16px'}}>
                     {current === 'mine' && <Mine/>}
-                    {current === 'newUpload' && <NewUpdate/>}
+                    {current === 'newUpload' && <Upload/>}
                 </Content>
             </>
         </div>
