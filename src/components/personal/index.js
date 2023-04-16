@@ -78,6 +78,7 @@ const Personal = () => {
                             setEmail(response.data.email);
                         } else {
                             message.info('错误')
+                            cookie.remove('token');
                         }
                     })
                     .catch(error => {
