@@ -1,12 +1,13 @@
 import React from "react";
 import './changePassword.css';
 import {LockOutlined, UserOutlined} from "@ant-design/icons";
-import {Button, Input} from "antd";
+import {Button, Input, message} from "antd";
 import md5 from 'js-md5';
 import axios from "axios";
 import {Link} from "react-router-dom";
 
 const ChangePassword = () => {
+
     const [oldPassword, setOldPassword] = React.useState('');
     const [newPassword, setNewPassword] = React.useState('');
     const [username, setUsername] = React.useState('');
@@ -23,7 +24,7 @@ const ChangePassword = () => {
     }
     const onClickChangeButton = () => {
         if (username === '' || oldPassword === '' || newPassword === '') {
-            alert("请填写完整信息");
+            message.info("请填写完整信息");
         } else {
             console.log('记录到信息:', username, oldPassword, newPassword)
             axios
@@ -33,12 +34,12 @@ const ChangePassword = () => {
                         newPassword: newPassword
                     }
                 ).then((res) => {
-                    if(res.data.status === "success"){
-                        alert("修改成功");
-                    }else {
-                        alert("修改失败，错误");
-                    }
-                console.log('返回状态',res.data);
+                if (res.data.status === "success") {
+                    message.info("修改成功");
+                } else {
+                    message.info("修改失败，错误");
+                }
+                console.log('返回状态', res.data);
             })
         }
     }

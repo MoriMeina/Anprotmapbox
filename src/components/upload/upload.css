@@ -1,11 +1,9 @@
 .upload_form {
     background-color: #fff;
     border-radius: 15px;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, .1);
-    padding-top: 40px;
-    width: 60%;
+    width: 100%;
     height: 600px;
-    margin: 100px auto 0;
+    margin: auto auto 0;
 }
 
 .upload_form_header {
@@ -30,7 +28,7 @@
 
 .right-fillup {
     float: right;
-    padding:20px;
+    padding: 20px;
     width: 50%;
     height: 90%;
     /*background-color: #cacaca;*/
@@ -42,9 +40,10 @@
     width: 100%;
     height: 95%;
 }
-.submit-button{
+
+.submit-button {
     border-radius: 8px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, .1);
-    margin-top:20px;
+    margin-top: 20px;
     width: 100%;
 }

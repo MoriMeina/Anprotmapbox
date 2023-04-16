@@ -1,7 +1,7 @@
 import React from "react";
 import './forgotPassword.css';
-import {LockOutlined, UserOutlined, MailOutlined} from "@ant-design/icons";
-import {Button, Input} from "antd";
+import {LockOutlined, MailOutlined, UserOutlined} from "@ant-design/icons";
+import {Button, Input, message} from "antd";
 import md5 from 'js-md5';
 import axios from "axios";
 import {Link} from "react-router-dom";
@@ -10,6 +10,7 @@ const Fotgotpassword = () => {
     const [newPassword, setNewPassword] = React.useState('');
     const [username, setUsername] = React.useState('');
     const [mail, setMail] = React.useState('')
+
     const onMailAddressChange = (e) => {
         setMail(e.target.value)
     }
@@ -22,7 +23,7 @@ const Fotgotpassword = () => {
     }
     const onClickChangeButton = () => {
         if (username === '' || mail === '' || newPassword === '') {
-            alert("请填写完整信息");
+            message.info("请填写完整信息");
         } else {
             console.log('记录到信息:', username, mail, newPassword)
             axios
@@ -33,9 +34,9 @@ const Fotgotpassword = () => {
                     }
                 ).then((res) => {
                 if (res.data.status === "success") {
-                    alert("修改成功");
+                    message.info("修改成功");
                 } else {
-                    alert("修改失败，邮箱或用户名错误");
+                    message.info("修改失败，邮箱或用户名错误");
                 }
                 console.log('返回状态', res.data);
             })

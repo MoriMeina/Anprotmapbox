@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './home.css';
 import Map from '../../components/map';
 import axios from "axios";

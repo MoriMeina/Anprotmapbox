@@ -177,22 +177,6 @@ const Map = (props) => {
                 </Button>
             </Popover>
             <UserPop/>
-            {/*<Button*/}
-            {/*    style={{*/}
-            {/*        background: "#a8a8a8",*/}
-            {/*        border: "none",*/}
-            {/*        height: "50px",*/}
-            {/*        width: "50px",*/}
-            {/*        borderRadius: "50px",*/}
-            {/*        position: "absolute",*/}
-            {/*        top: "83%",*/}
-            {/*        left: "3%",*/}
-            {/*        zIndex: "1000"*/}
-            {/*    }}*/}
-            {/*    onClick={Tologin}*/}
-            {/*>*/}
-            {/*    <UserOutlined/>*/}
-            {/*</Button>*/}
         </div>
     )
 };

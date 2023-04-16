@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import {Menu} from "antd";
 import {Content} from "antd/es/layout/layout";
-import {CheckOutlined,  UploadOutlined, UserOutlined} from "@ant-design/icons";
+import {CheckOutlined, UploadOutlined, UserOutlined} from "@ant-design/icons";
 
 
-const Admin =()=>{
+const Admin = () => {
     function getItem(label, key, icon, children, type) {
         return {
             key,
@@ -17,7 +17,7 @@ const Admin =()=>{
 
     const items = [
         // eslint-disable-next-line react/jsx-no-undef
-        getItem('管理', 'personal', <CheckOutlined />, [
+        getItem('管理', 'personal', <CheckOutlined/>, [
             getItem('用户管理', 'mine', <UserOutlined/>),
             getItem('用户上传审核', 'newUpload', <UploadOutlined/>),
         ]),

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Document, Page } from 'react-pdf';
+import React, {useState} from 'react';
+import {Document, Page} from 'react-pdf';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/cjs/Page/TextLayer.css';
 
@@ -8,14 +8,14 @@ const PDFShower = (props) => {
     const [error, setError] = useState(null);
 
     const pdfUrl = props.pdfUrl;
-    console.log('pdfUrl:',pdfUrl)
+    console.log('pdfUrl:', pdfUrl)
 
     return (
         <div>
             {pdfUrl ? (
                 <Document
                     file={pdfUrl}
-                    onLoadSuccess={({ numPages }) => {
+                    onLoadSuccess={({numPages}) => {
                         setNumPages(numPages);
                     }}
                     onLoadError={(error) => {

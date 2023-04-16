@@ -1,0 +1,24 @@
+.personal {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto 0;
+    display: flex;
+}
+
+.Change-button {
+    border-radius: 8px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, .1);
+    width: 100%;
+}
+
+.Mine {
+    width: 70%;
+    padding: 5%;
+    height: 100%;
+    background-color: #fff;
+    border-radius: 8px;
+    margin: 0 auto 0;
+}

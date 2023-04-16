@@ -25,16 +25,16 @@ const UploadPage = () => {
     const uploadAnimalname = (e) => {
         setAnimalname(e.target.value);
     }
-    const uploadSN = (e)=>{
+    const uploadSN = (e) => {
         setSN(e.target.value);
     }
-    const uploadLat = (e) =>{
+    const uploadLat = (e) => {
         setLat(e.target.value);
     }
-    const uploadOrder = (e) =>{
+    const uploadOrder = (e) => {
         setOrder(e.target.value);
     }
-    const onRegistButtonClick = ()=>{
+    const onRegistButtonClick = () => {
         console.log(Classname);
         console.log(Animalname);
         console.log(level);
@@ -107,9 +107,10 @@ const UploadPage = () => {
                 />
                 <label>目</label>
                 <Input size="large" placeholder="请输入目" prefix={<NodeExpandOutlined/>} onChange={uploadOrder}
-                       />
+                />
                 <label>动物名</label>
-                <Input size="large" placeholder="请输入动物名" prefix={<NodeExpandOutlined/>} onChange={uploadAnimalname}
+                <Input size="large" placeholder="请输入动物名" prefix={<NodeExpandOutlined/>}
+                       onChange={uploadAnimalname}
                 />
                 <label>濒危等级</label>
                 <Radio.Group onChange={onChange} value={value}>

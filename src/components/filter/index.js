@@ -56,7 +56,7 @@ const treeData1 = [{
 const Filter = (props) => {
     //----------------------------------------Class------------------------------------------------------------//
     // const [needtoQuerybyClass, setNeedtoQuerybyClass] = useState([]);
-    const needtoQuerybyClassRef= useRef([])
+    const needtoQuerybyClassRef = useRef([])
 
     //设置需要查询的类
     // const [needtoQuerybyLevel, setNeedtoQuerybyLevel] = useState([]);
@@ -218,22 +218,23 @@ const Filter = (props) => {
                 try {
                     const response = await axios.get('/api/location');
                     if (response && response.data && response.data.features) {
-                        console.log('请求全部类',response.data.features)
+                        console.log('请求全部类', response.data.features)
                         //设置markers
                         props.updateMarker(response.data.features)
                     }
                 } catch (error) {
                     console.error(error);
                 }
-            }else{
-            const response = await axios.post('/api/byclass', {
-                class: needtoQuerybyClassRef.current,
-            })
-            if (response && response.data && response.data.features) {
-                console.log('根据类请求到', response.data.features)
-                props.updateMarker(response.data.features)
+            } else {
+                const response = await axios.post('/api/byclass', {
+                    class: needtoQuerybyClassRef.current,
+                })
+                if (response && response.data && response.data.features) {
+                    console.log('根据类请求到', response.data.features)
+                    props.updateMarker(response.data.features)
+                }
             }
-        } }catch (error) {
+        } catch (error) {
             console.error(error);
         }
     };
@@ -243,22 +244,23 @@ const Filter = (props) => {
                 try {
                     const response = await axios.get('/api/location');
                     if (response && response.data && response.data.features) {
-                        console.log('请求全部濒危等级',response.data.features)
+                        console.log('请求全部濒危等级', response.data.features)
                         //设置markers
                         props.updateMarker(response.data.features)
                     }
                 } catch (error) {
                     console.error(error);
                 }
-            }else{
-            const response = await axios.post('/api/bylevel', {
-                level: needtoQuerybyLevelRef.current,
-            })
-            if (response && response.data && response.data.features) {
-                console.log('根据濒危等级请求到', response.data.features)
-                props.updateMarker(response.data.features)
+            } else {
+                const response = await axios.post('/api/bylevel', {
+                    level: needtoQuerybyLevelRef.current,
+                })
+                if (response && response.data && response.data.features) {
+                    console.log('根据濒危等级请求到', response.data.features)
+                    props.updateMarker(response.data.features)
+                }
             }
-        } }catch (error) {
+        } catch (error) {
             console.error(error);
         }
     };
@@ -295,7 +297,6 @@ const Filter = (props) => {
             });
         }
     };
-
 
 
     //监听需要查询值的变化
