@@ -30,7 +30,7 @@ const Map = (props) => {
     const onOpen = async (value) => {
         console.log('download_file:', value)
         setOpen(true);
-        const response = await axios.get(`/pdf/${value}`, {responseType: 'blob'});
+        const response = await axios.get(`/api/pdf/${value}`, {responseType: 'blob'});
         const file = new Blob([response.data], {type: 'application/pdf'});
         const fileUrl = URL.createObjectURL(file);
         setValue(fileUrl);
