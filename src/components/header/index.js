@@ -73,6 +73,12 @@ const SearchBox = () => {
         <span className="typeButton">
             <Select
                 labelInValue
+                style={{
+                    background:"transparent",
+                    width:"100%",
+                    padding:"0 11px",
+
+                }}
                 defaultValue={{
                     value: 'all',
                     label: '全部搜索',
@@ -85,21 +91,28 @@ const SearchBox = () => {
                     },
                     {
                         value: 'Class',
-                        label: '按类搜索',
+                        label: '搜索类',
                     },
                     {
                         value: 'Order',
-                        label: '按目搜索',
+                        label: '搜索目',
                     },
                     {
                         value: 'Level',
-                        label: '濒危等级搜索',
+                        label: '搜索濒危等级',
                     },
                 ]}
             />
         </span>
                 <div className="searchbox">
-                    <Select style={{position: "absolute", top: "7"}} className='select' showSearch options={options}
+                    <Select style={{
+                        position: "absolute",
+                        background:"transparent",
+                        top: "7",
+                        height:"100%",
+                        minWidth:"200px",
+                    }}
+                            className='select' showSearch options={options}
                             filterOption={false} onSelect={onOpen}
                             onSearch={onSearch}></Select>
                 </div>

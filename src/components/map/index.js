@@ -75,19 +75,80 @@ const Map = (props) => {
                                 },
                             })),
                         },
+                        cluster: true,
+                        clusterMaxZoom: 14,
+                        clusterRadius: 50
                     });
                     map.addLayer({
-                        id: 'markers',
-                        source: 'markers',
+                        id: 'clusters',
                         type: 'circle',
+                        source: 'markers',
+                        filter: ['has', 'point_count'],
                         paint: {
-                            'circle-radius': 8,
-                            'circle-color': '#225cb4',
-                        },
+                            'circle-color': [
+                                'step',
+                                ['get', 'point_count'],
+                                '#d6c451',
+                                100,
+                                '#f17596',
+                                750,
+                                '#ff0000'
+                            ],
+                            'circle-radius': [
+                                'step',
+                                ['get', 'point_count'],
+                                20,
+                                100,
+                                30,
+                                750,
+                                40
+                            ]
+                        }
+                    });
+                    map.addLayer({
+                        id: 'cluster-count',
+                        type: 'symbol',
+                        source: 'markers',
+                        filter: ['has', 'point_count'],
+                        layout: {
+                            'text-field': '{point_count_abbreviated}',
+                            'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+                            'text-size': 12
+                        }
+                    });
+                    map.addLayer({
+                        id: 'unclustered-point',
+                        type: 'circle',
+                        source: 'markers',
+                        filter: ['!', ['has', 'point_count']],
+                        paint: {
+                            'circle-color': '#da1111',
+                            'circle-radius': 5,
+                            'circle-stroke-width': 2,
+                            'circle-stroke-color': '#fff'
+                        }
+                    });
+                    map.on('click', 'clusters', (e) => {
+                        const features = map.queryRenderedFeatures(e.point, {
+                            layers: ['clusters']
+                        });
+                        const clusterId = features[0].properties.cluster_id;
+                        map.getSource('markers').getClusterExpansionZoom(
+                            clusterId,
+                            (err, zoom) => {
+                                if (err) return;
+
+                                map.easeTo({
+                                    center: features[0].geometry.coordinates,
+                                    zoom: zoom
+                                });
+                            }
+                        );
                     });
 
+
                     // // Add click event to markers
-                    map.on('click', 'markers', (e) => {
+                    map.on('click', 'unclustered-point', (e) => {
                         axios.get(`/api/pdfname?name=${e.features[0].properties.name}`
                         ).then(res => {
                             console.log(res.data);
@@ -99,7 +160,7 @@ const Map = (props) => {
 
                     });
 
-                    map.on('mouseenter', 'markers', (e) => {
+                    map.on('mouseenter', 'unclustered-point', (e) => {
                         const coordinates = e.features[0].geometry.coordinates.slice();
                         const name = e.features[0].properties.name;
                         const description = `<strong>${name}</strong>`;
@@ -113,18 +174,18 @@ const Map = (props) => {
                             .setHTML(description)
                             .addTo(map);
 
-                        map.on('mouseleave', 'markers', () => {
+                        map.on('mouseleave', 'unclustered-point', () => {
                             popup.remove();
                         });
                     });
 
                     // Change the cursor to a pointer when the mouse is over the places layer.
-                    map.on('mouseenter', 'markers', () => {
+                    map.on('mouseenter', 'unclustered-point', () => {
                         map.getCanvas().style.cursor = 'pointer';
                     });
 
                     // Change it back to a pointer when it leaves.
-                    map.on('mouseleave', 'markers', () => {
+                    map.on('mouseleave', 'unclustered-point', () => {
                         map.getCanvas().style.cursor = '';
                     });
                 }
