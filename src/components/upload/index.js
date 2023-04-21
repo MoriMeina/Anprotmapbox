@@ -34,7 +34,7 @@ const UploadPage = () => {
     const uploadOrder = (e) => {
         setOrder(e.target.value);
     }
-    const onRegistButtonClick = () => {
+    const onSubmitButtonClick = () => {
         console.log(Classname);
         console.log(Animalname);
         console.log(level);
@@ -51,6 +51,21 @@ const UploadPage = () => {
                 SN: SN,
                 Lat: Lat,
                 profile: filename
+            })
+            .then((res) => {
+                console.log(res);
+                if (res.data.status === 'success') {
+                    message.success('上传成功,请等待管理员审核');
+                    setLevel('');
+                    setValue('CR极危');
+                    setClassname('');
+                    setAnimalname('');
+                    setSN('');
+                    setLat('');
+                    setOrder('');
+                } else {
+                    message.error('上传失败');
+                }
             })
 
     }
@@ -125,7 +140,7 @@ const UploadPage = () => {
                 <label>经纬度</label>
                 <Input size="large" placeholder="请输入经纬度" prefix={<GlobalOutlined/>} onChange={uploadLat}
                 />
-                <Button type="primary" size={"large"} className="submit-button" onClick={onRegistButtonClick}
+                <Button type="primary" size={"large"} className="submit-button" onClick={onSubmitButtonClick}
                 >上传</Button>
 
             </div>
