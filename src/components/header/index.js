@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './header.css';
-import LOGO from './logo.png';
+import LOGO from './logo.jpg';
 import axios from 'axios';
 import {Drawer, Select} from 'antd';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
