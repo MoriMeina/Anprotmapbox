@@ -16,10 +16,10 @@ const Map = (props) => {
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState('');
     const [markers, setMarkers] = useState([]);
+    const [center, setCenter] = useState([105.54358038269157, 35.46678314428422]);
 
 
     const content = <Filter updateMarker={updateMarker}/>;
-
     const text = <span>过滤列表</span>;
 
 
@@ -44,10 +44,7 @@ const Map = (props) => {
                 container: 'map',
                 projection: 'globe',
                 style: 'mapbox://styles/mapbox/satellite-v9',
-                center: [
-                    105.54358038269157,
-                    35.46678314428422
-                ],
+                center: center,
                 zoom: 3,
             });
             map.on('style.load', () => {
@@ -195,17 +192,21 @@ const Map = (props) => {
                 map.remove();
             };
         },
-        [markers]);
+        [markers,center]);
 
     function updateMarker(newMarkers) {
         setMarkers(newMarkers);
         console.log("newMarkers", newMarkers)
     }
+    function updateCenter(newCenter) {
+        setCenter(newCenter);
+        console.log("newCenter", newCenter)
+    }
 
 
     return (
         <div id="map" style={{width: '100%', height: '100%'}}>
-            <Header/>
+            <Header updateCenter={updateCenter} updateMarker={updateMarker}/>
             <Drawer
                 title="详细信息"
                 placement="left"

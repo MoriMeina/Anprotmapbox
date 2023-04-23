@@ -4,17 +4,15 @@ import LOGO from './logo.jpg';
 import axios from 'axios';
 import {Drawer, Select} from 'antd';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
-import {pdfjs} from 'react-pdf';
 import PDFShower from '../PDFShower';
 // noinspection JSUnresolvedVariable
 
 
-const SearchBox = () => {
+const SearchBox = (props) => {
     const [type, setType] = useState("all");
     const [options, setOptions] = useState([]);
     const [value, setValue] = useState([]);
     const [open, setOpen] = useState(false);
-    // const [numPages, setNumPages] = useState(null);
 
 
     //左侧弹出抽屉显示PDF文件内容
@@ -22,16 +20,31 @@ const SearchBox = () => {
         setOpen(false);
     };
 
-    const onOpen = async (value) => {
+    const onOpen = async (value,label) => {
+        PushDot(label);
         console.log('download_file:', value)
+        // console.log("label",label.label)
         setOpen(true);
         const response = await axios.get(`/api/pdf/${value}`, {responseType: 'blob'});
         const file = new Blob([response.data], {type: 'application/pdf'});
         const fileUrl = URL.createObjectURL(file);
         console.log('fileUrl:', fileUrl)
         setValue(fileUrl);
-    };
 
+    };
+    function PushDot(label) {
+        axios
+            .get('/api/location')
+            .then((res) => {
+                props.updateMarker(res.data.features)
+            })
+        axios
+            .get(`/api/search?name=${label.label}&type=location`)
+            .then((res) => {
+                console.log('center', res.data.location[0])
+                props.updateCenter(res.data.location[0])
+            })
+    }
 
     //搜索框下弹出列表
     const onSearch = (value) => {
@@ -52,10 +65,10 @@ const SearchBox = () => {
                         setOptions(null);
                     }
                 })
-
                 .catch((err) => {
                     console.error(err);
                 });
+
             console.log('options:', options)
             console.log('search:', value);
         }
@@ -73,9 +86,9 @@ const SearchBox = () => {
             <Select
                 labelInValue
                 style={{
-                    background:"transparent",
-                    width:"100%",
-                    padding:"0 11px",
+                    background: "transparent",
+                    width: "100%",
+                    padding: "0 11px",
 
                 }}
                 defaultValue={{
@@ -106,10 +119,10 @@ const SearchBox = () => {
                 <div className="searchbox">
                     <Select style={{
                         position: "absolute",
-                        background:"transparent",
+                        background: "transparent",
                         top: "7",
-                        height:"100%",
-                        minWidth:"200px",
+                        height: "100%",
+                        minWidth: "200px",
                     }}
                             className='select' showSearch options={options}
                             filterOption={false} onSelect={onOpen}
@@ -134,9 +147,10 @@ const SearchBox = () => {
 // 主结构
 const Header = () => {
     return (<div className="header">
-        <img src={LOGO} className="header_logo" alt="Logo"/>
-        <SearchBox/>
-    </div>);
+            <img src={LOGO} className="header_logo" alt="Logo"/>
+            <SearchBox/>
+        </div>
+    );
 };
 
 export default Header;
