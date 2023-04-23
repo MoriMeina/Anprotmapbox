@@ -17,7 +17,7 @@ const Map = (props) => {
     const [value, setValue] = useState('');
     const [markers, setMarkers] = useState([]);
     const [center, setCenter] = useState([105.54358038269157, 35.46678314428422]);
-
+    const [zoom, setZoom] = useState(3);
 
     const content = <Filter updateMarker={updateMarker}/>;
     const text = <span>过滤列表</span>;
@@ -45,7 +45,7 @@ const Map = (props) => {
                 projection: 'globe',
                 style: 'mapbox://styles/mapbox/satellite-v9',
                 center: center,
-                zoom: 3,
+                zoom: zoom,
             });
             map.on('style.load', () => {
                 map.setFog({
@@ -192,7 +192,7 @@ const Map = (props) => {
                 map.remove();
             };
         },
-        [markers,center]);
+        [markers,center,zoom]);
 
     function updateMarker(newMarkers) {
         setMarkers(newMarkers);
@@ -202,11 +202,15 @@ const Map = (props) => {
         setCenter(newCenter);
         console.log("newCenter", newCenter)
     }
+    function updateZoom(newZoom) {
+        setZoom(newZoom);
+        console.log("newZoom", newZoom)
+    }
 
 
     return (
         <div id="map" style={{width: '100%', height: '100%'}}>
-            <Header updateCenter={updateCenter} updateMarker={updateMarker}/>
+            <Header updateCenter={updateCenter} updateMarker={updateMarker} updateZoom={updateZoom}/>
             <Drawer
                 title="详细信息"
                 placement="left"

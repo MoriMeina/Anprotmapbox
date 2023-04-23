@@ -8,7 +8,8 @@ import PDFShower from '../PDFShower';
 // noinspection JSUnresolvedVariable
 
 
-const SearchBox = (props) => {
+// 主结构
+const Header = (props) => {
     const [type, setType] = useState("all");
     const [options, setOptions] = useState([]);
     const [value, setValue] = useState([]);
@@ -20,7 +21,7 @@ const SearchBox = (props) => {
         setOpen(false);
     };
 
-    const onOpen = async (value,label) => {
+    const onOpen = async (value, label) => {
         PushDot(label);
         console.log('download_file:', value)
         // console.log("label",label.label)
@@ -32,6 +33,7 @@ const SearchBox = (props) => {
         setValue(fileUrl);
 
     };
+
     function PushDot(label) {
         axios
             .get('/api/location')
@@ -44,6 +46,7 @@ const SearchBox = (props) => {
                 console.log('center', res.data.location[0])
                 props.updateCenter(res.data.location[0])
             })
+        props.updateZoom(6)
     }
 
     //搜索框下弹出列表
@@ -80,8 +83,10 @@ const SearchBox = (props) => {
     };
 
     return (
-        <div className="header_right_search">
-            <div className="input">
+        <div className="header">
+            <img src={LOGO} className="header_logo" alt="Logo"/>
+            <div className="header_right_search">
+                <div className="input">
         <span className="typeButton">
             <Select
                 labelInValue
@@ -116,39 +121,32 @@ const SearchBox = (props) => {
                 ]}
             />
         </span>
-                <div className="searchbox">
-                    <Select style={{
-                        position: "absolute",
-                        background: "transparent",
-                        top: "7",
-                        height: "100%",
-                        minWidth: "200px",
-                    }}
-                            className='select' showSearch options={options}
-                            filterOption={false} onSelect={onOpen}
-                            onSearch={onSearch}></Select>
+                    <div className="searchbox">
+                        <Select style={{
+                            position: "absolute",
+                            background: "transparent",
+                            top: "7",
+                            height: "100%",
+                            minWidth: "200px",
+                        }}
+                                className='select' showSearch options={options}
+                                filterOption={false} onSelect={onOpen}
+                                onSearch={onSearch}></Select>
+                    </div>
                 </div>
+                <Drawer
+                    title="详细信息"
+                    placement="left"
+                    closable={false}
+                    onClose={onClose}
+                    open={open}
+                    width={650}
+                >
+                    <div>
+                        <PDFShower pdfUrl={value}/>
+                    </div>
+                </Drawer>
             </div>
-            <Drawer
-                title="详细信息"
-                placement="left"
-                closable={false}
-                onClose={onClose}
-                open={open}
-                width={650}
-            >
-                <div>
-                    <PDFShower pdfUrl={value}/>
-                </div>
-            </Drawer>
-        </div>
-    );
-};
-// 主结构
-const Header = () => {
-    return (<div className="header">
-            <img src={LOGO} className="header_logo" alt="Logo"/>
-            <SearchBox/>
         </div>
     );
 };
