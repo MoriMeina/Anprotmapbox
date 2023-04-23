@@ -7,7 +7,6 @@ import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import {pdfjs} from 'react-pdf';
 import PDFShower from '../PDFShower';
 // noinspection JSUnresolvedVariable
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 
 const SearchBox = () => {
