@@ -4,7 +4,7 @@ import {Button, Input, Menu, message} from "antd";
 import {MailOutlined, PhoneOutlined, UploadOutlined, UserOutlined} from "@ant-design/icons";
 import {Content} from "antd/es/layout/layout";
 import axios from "axios";
-import cookie from "react-cookies";
+import Cookie from "react-cookies";
 import Upload from "../upload"
 
 const Personal = () => {
@@ -32,7 +32,7 @@ const Personal = () => {
     const Mine = () => {
 
         const onClickloginButton = () => {
-            const token = cookie.load('token')
+            const token = Cookie.load('token')
             axios
                 .post('/api/updatepersonal', {
                     'token': token,
@@ -61,9 +61,9 @@ const Personal = () => {
 
 
         useEffect(() => {
-            const token = cookie.load('token')
+            const token = Cookie.load('token')
             console.log('token:', token)
-            if (token.trim() !== '') {
+            if (token && token.trim() !== '') {
                 // 在组件渲染后发送网络请求
                 axios.post('/api/personal', {
                     'token': token
@@ -78,7 +78,7 @@ const Personal = () => {
                             setEmail(response.data.email);
                         } else {
                             message.info('错误')
-                            cookie.remove('token');
+                            Cookie.remove('token');
                         }
                     })
                     .catch(error => {

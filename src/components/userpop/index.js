@@ -6,8 +6,8 @@ import "./userpop.css"
 import Personal from "../personal";
 import md5 from "js-md5";
 import axios from "axios";
-import cookie from "react-cookies";
 import {Link} from "react-router-dom";
+import Cookie from "react-cookies";
 
 
 const Userpop = () => {
@@ -25,25 +25,27 @@ const Userpop = () => {
         setPassword(encrypt);
     }
 
-    const onClickloginButton = () => {
+    const onClickloginButton = async () => {
         console.log('账号:', username, '密码(加密后):', password);
-        axios
-            .post('/api/login', {
+        try {
+            const res = await axios.post('/api/login', {
                 username: username,
                 password: password,
-            }).then(res => {
+            });
             if (res.data.status === "success") {
-                cookie.save('token', res.data.token, {path: '/'});
+                Cookie.save('token', res.data.token, {path: '/'});
                 setOpen(false);
                 setOpen1(true);
             } else {
                 message.info("登录失败");
             }
-        })
+        } catch (error) {
+            message.error("网络请求出错，请稍后再试！");
+        }
     }
 
     function openDOM() {
-        if (cookie.load('token') === undefined) {
+        if (Cookie.load('token') === undefined) {
             setOpen(true);
         } else {
             setOpen1(true);

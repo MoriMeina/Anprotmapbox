@@ -196,6 +196,12 @@ const Map = (props) => {
 
     function updateMarker(newMarkers) {
         setMarkers(newMarkers);
+        setCenter([105.54358038269157, 35.46678314428422])
+        setZoom(3)
+        console.log("newMarkers", newMarkers)
+    }
+    function updateMarker1(newMarkers) {
+        setMarkers(newMarkers);
         console.log("newMarkers", newMarkers)
     }
     function updateCenter(newCenter) {
@@ -210,7 +216,7 @@ const Map = (props) => {
 
     return (
         <div id="map" style={{width: '100%', height: '100%'}}>
-            <Header updateCenter={updateCenter} updateMarker={updateMarker} updateZoom={updateZoom}/>
+            <Header updateCenter={updateCenter} updateMarker={updateMarker1} updateZoom={updateZoom}/>
             <Drawer
                 title="详细信息"
                 placement="left"
